@@ -233,7 +233,7 @@ function cc(it,ix){
   let d=document.createElement('div');d.className='cd';d.dataset.category=it.c;d.dataset.index=ix;
   let ra=gr(ix),lks=fl(ix),vw=lks*(3+Math.floor(Math.random()*5));
   let cv=document.createElement('canvas');d.appendChild(cv);
-  d.innerHTML+=`<div class=\"rb r${ra[0]}\">${ra==='common'?'':ra}</div><div class=\"wm\">rotfeed</div><div class=\"dth\">\u2764\uFE0F</div><div class=\"cb\"><div class=\"ci\"><div class=\"cc\">${it.c}</div><div class=\"ct\">${it.p}</div><div class=\"cm\"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class=\"ca\"><button class=\"ab lkb\" data-id=\"${ix}\">\u2764\uFE0F</button><div class=\"ac lkc\">${fn(lks)}</div><button class=\"ab svb\" data-id=\"${ix}\">\uD83D\uDCBE</button><div class=\"ac\">Save</div><button class=\"ab shb\" data-id=\"${ix}\" data-p=\"${encodeURIComponent(it.p)}\">\u2197</button><div class=\"ac\">Share</div></div></div>`;
+  d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class="ca"><button class="ab lkb" data-id="${ix}">\u2764\uFE0F</button><div class="ac lkc">${fn(lks)}</div><button class="ab svb" data-id="${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="${ix}" data-p="${encodeURIComponent(it.p)}">\u2197</button><div class="ac">Share</div></div></div>`;
   requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2)ga(c2,it.p,ix)});
   return d
 }
@@ -245,7 +245,7 @@ function createChaosCard(collision, words, mood){
   let promptSeed = words.join(' ') + collision;
   let ix = Math.floor(Math.random()*10000);
   let cv=document.createElement('canvas');d.appendChild(cv);
-  d.innerHTML+=`<div class=\"rb rl\">\u26A1 YOUR CREATION</div><div class=\"wm\">rotfeed</div><div class=\"dth\">\u2764\uFE0F</div><div class=\"cb\"><div class=\"ci\"><div class=\"cc\">${mood} \u00B7 ${words.join(' + ')}</div><div class=\"ct\">${collision}</div><div class=\"cm\"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class=\"ca\"><button class=\"ab lkb\" data-id=\"u${ix}\">\u2764\uFE0F</button><div class=\"ac lkc\">0</div><button class=\"ab svb\" data-id=\"u${ix}\">\uD83D\uDCBE</button><div class=\"ac\">Save</div><button class=\"ab shb\" data-id=\"u${ix}\" data-p=\"${encodeURIComponent(collision)}\">\u2197</button><div class=\"ac\">Share</div></div></div>`;
+  d.innerHTML+=`<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${mood} \u00B7 ${words.join(' + ')}</div><div class="ct">${collision}</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class="ca"><button class="ab lkb" data-id="u${ix}">\u2764\uFE0F</button><div class="ac lkc">0</div><button class="ab svb" data-id="u${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="u${ix}" data-p="${encodeURIComponent(collision)}">\u2197</button><div class="ac">Share</div></div></div>`;
   requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2)ga(c2,promptSeed,ix)});
   return d
 }
@@ -268,7 +268,7 @@ document.addEventListener('click',e=>{
   let gd=cx.createLinearGradient(0,400,0,1080);gd.addColorStop(0,'transparent');gd.addColorStop(.5,'rgba(0,0,0,.6)');gd.addColorStop(1,'rgba(0,0,0,.95)');cx.fillStyle=gd;cx.fillRect(0,0,1080,1080);
   let pr=cd.querySelector('.ct')?.textContent||'';cx.fillStyle='rgba(255,255,255,.4)';cx.font='700 20px Space Grotesk,sans-serif';cx.textAlign='right';cx.fillText('rotfeed',1050,40);cx.textAlign='left';cx.fillStyle='#ff2d55';cx.font='700 24px Space Grotesk,sans-serif';cx.fillText((cd.querySelector('.cc')?.textContent||'').toUpperCase(),50,920);cx.fillStyle='#fff';cx.font='700 38px Space Grotesk,sans-serif';let w=pr.split(' '),ln='',y=960,mx=980;for(let wd of w){let ts=ln+wd+' ';if(cx.measureText(ts).width>mx&&ln){cx.fillText(ln.trim(),50,y);ln=wd+' ';y+=48}else ln=ts}if(ln)cx.fillText(ln.trim(),50,y);
   try{sc.toBlob(b=>{let u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`rotfeed-${Date.now()}.png`;a.click();URL.revokeObjectURL(u)},'image/png');st2('\uD83D\uDCBE Card saved!')}catch(e2){st2('Long press to save')}return}
-  let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': \"'+pr+'\"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st2('\uD83D\uDCCB Link copied!'));return}
+  let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': "'+pr+'"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st2('\uD83D\uDCCB Link copied!'));return}
   let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
 document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);lb2();lb2();st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
 
@@ -387,6 +387,6 @@ document.addEventListener('keydown',e=>{
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 document.addEventListener('click',e=>{if(e.target.closest('.lkb')&&navigator.vibrate)navigator.vibrate(10)});
 lb2();lb2();
-<\/script>
+</script>
 </body>
   </html>

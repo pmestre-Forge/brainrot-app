@@ -1,0 +1,18 @@
+{
+  "name": "rotfeed",
+  "short_name": "rotfeed",
+  "description": "AI-generated cursed images. Infinite scroll. You won't stop.",
+  "start_url": "/brainrot-app/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%23ff2d55' rx='100' width='512' height='512'/><text y='370' x='256' text-anchor='middle' font-size='300'>🧠</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

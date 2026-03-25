@@ -2,6 +2,181 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>rotfeed</title>
+<meta property="og:title" content="rotfeed — You've Been Warned">
+<meta property="og:description" content="AI-generated cursed images. Infinite scroll. You won't stop.">
+<meta name="description" content="AI-generated cursed images. Infinite scroll. You won't stop.">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="rotfeed">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="rotfeed">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ff2d55' rx='20' width='100' height='100'/><text y='72' x='50' text-anchor='middle' font-size='60'>🧠</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--a:#ff2d55;--bg:#050505;--cb:#111;--t:#fff;--td:rgba(255,255,255,.5);--tdd:rgba(255,255,255,.25)}
+body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+.hd{position:fixed;top:0;left:0;right:0;z-index:100;background:linear-gradient(180deg,rgba(5,5,5,.98),rgba(5,5,5,.9) 60%,transparent);padding:12px 16px 20px;padding-top:max(12px,env(safe-area-inset-top));pointer-events:none}
+.hi{max-width:520px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;pointer-events:auto}
+.lo{font-size:22px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:6px}
+.li{width:28px;height:28px;background:var(--a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;animation:pg 2s ease-in-out infinite}
+@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(255,45,85,.3)}50%{box-shadow:0 0 12px 4px rgba(255,45,85,.3)}}
+.lo span{color:var(--a)}
+.st{font-size:11px;color:var(--td);display:flex;align-items:center;gap:4px}
+.sd{width:6px;height:6px;background:#0f0;border-radius:50%;animation:bl 2s ease-in-out infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.ib{display:none;background:var(--a);border:none;color:#fff;font-family:inherit;font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px;cursor:pointer}
+.cats{position:fixed;top:52px;left:0;right:0;z-index:99;background:linear-gradient(180deg,rgba(5,5,5,.95),transparent);padding:0 0 16px;overflow:hidden}
+.cs{max-width:520px;margin:0 auto;display:flex;gap:8px;padding:0 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cs::-webkit-scrollbar{display:none}
+.cp{flex-shrink:0;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--td);white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.cp:hover,.cp.on{background:var(--a);border-color:var(--a);color:#fff;box-shadow:0 0 16px rgba(255,45,85,.3)}
+.fd{max-width:520px;margin:0 auto;padding:100px 10px 40px;display:flex;flex-direction:column;gap:14px}
+.cd{background:var(--cb);border-radius:20px;overflow:hidden;position:relative;cursor:pointer;opacity:0;transform:translateY(30px);transition:opacity .5s,transform .5s cubic-bezier(.22,1,.36,1);-webkit-tap-highlight-color:transparent}
+.cd.v{opacity:1;transform:translateY(0)}
+.cd:active{transform:scale(.985)}
+.cd canvas{width:100%;display:block;aspect-ratio:1;background:#0a0a0a}
+.rb{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:2}
+.rc{display:none}.rr{background:rgba(59,130,246,.4);color:#93bbfd;border:1px solid rgba(59,130,246,.3)}
+.re{background:rgba(147,51,234,.4);color:#c4a1fa;border:1px solid rgba(147,51,234,.3)}
+.rl{background:rgba(245,158,11,.4);color:#fcd34d;border:1px solid rgba(245,158,11,.3);animation:lg 2s ease-in-out infinite}
+@keyframes lg{0%,100%{box-shadow:0 0 8px rgba(245,158,11,.3)}50%{box-shadow:0 0 20px rgba(245,158,11,.5)}}
+.cb{position:absolute;bottom:0;left:0;right:0;padding:60px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.95));display:flex;justify-content:space-between;align-items:flex-end}
+.ci{flex:1;min-width:0}
+.cc{font-size:10px;color:var(--a);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.ct{font-size:16px;color:rgba(255,255,255,.95);line-height:1.35;font-weight:600;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.cm{display:flex;gap:10px;margin-top:8px;font-size:11px;color:var(--tdd)}
+.ca{display:flex;flex-direction:column;gap:10px;align-items:center}
+.ab{background:rgba(255,255,255,.1);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);-webkit-tap-highlight-color:transparent}
+.ab:hover{background:rgba(255,255,255,.2);transform:scale(1.1)}
+.ab.lk{background:var(--a);animation:lp .4s cubic-bezier(.175,.885,.32,1.275)}
+.ac{font-size:10px;color:var(--tdd);text-align:center;margin-top:-6px}
+@keyframes lp{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+.dth{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:80px;z-index:10;pointer-events:none;opacity:0;filter:drop-shadow(0 0 20px rgba(255,45,85,.5))}
+.dth.an{animation:hb .8s cubic-bezier(.175,.885,.32,1.275) forwards}
+@keyframes hb{0%{transform:translate(-50%,-50%) scale(0);opacity:0}15%{transform:translate(-50%,-50%) scale(1.3);opacity:1}80%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(1.2);opacity:0}}
+.wm{position:absolute;top:12px;right:12px;font-size:10px;color:rgba(255,255,255,.15);font-weight:700;letter-spacing:.5px;pointer-events:none;z-index:2}
+.ld{text-align:center;padding:40px;color:var(--tdd);font-size:13px}
+.lb{width:60px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;margin:0 auto 12px;overflow:hidden}
+.lb::after{content:'';display:block;width:30%;height:100%;background:var(--a);border-radius:3px;animation:ls 1s ease-in-out infinite}
+@keyframes ls{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+.to{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--cb);color:#fff;padding:12px 24px;border-radius:100px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:200;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding-bottom:max(12px,env(safe-area-inset-bottom))}
+.to.sh{opacity:1;transform:translateX(-50%) translateY(0)}
+.sp{position:fixed;top:0;left:0;height:2px;background:var(--a);z-index:200;transition:width .1s;box-shadow:0 0 10px rgba(255,45,85,.3)}
+@media(max-width:540px){.fd{padding:95px 6px 32px;gap:10px}.cd{border-radius:16px}}
+@media(display-mode:standalone){.ib{display:none}}
+</style>
+</head>
+<body>
+<div class="sp" id="sp"></div>
+<div class="hd"><div class="hi"><div class="lo"><div class="li">&#x1F9E0;</div>rot<span>feed</span></div><div class="st"><span class="sd"></span><span id="oc">2,847</span> rotting</div></div></div>
+<div class="cats"><div class="cs" id="cb"><div class="cp on" data-c="all">&#x1F525; All</div><div class="cp" data-c="corporate horror">&#x1F4BC; Corporate</div><div class="cp" data-c="forbidden romance">&#x1F495; Romance</div><div class="cp" data-c="crime documentary">&#x1F50D; Crime</div><div class="cp" data-c="existential dread">&#x1F300; Existential</div><div class="cp" data-c="workplace horror">&#x1F630; Workplace</div><div class="cp" data-c="art history brainrot">&#x1F3A8; Art</div></div></div>
+<div class="fd" id="fd"></div>
+<div class="ld" id="ld"><div class="lb"></div>Generating cursed content...</div>
+<div class="to" id="to"></div>
+<script>
+const P=[
+{p:"A business meeting of penguins in suits arguing over a PowerPoint about fish",c:"corporate horror"},
+{p:"Security camera footage of a goose stealing a laptop from Starbucks",c:"crime documentary"},
+{p:"A sloth as an air traffic controller, everyone is panicking",c:"workplace horror"},
+{p:"A very formal wedding between two slices of bread",c:"forbidden romance"},
+{p:"Stock photo of a family smiling at a salad but the salad is screaming",c:"stock photo nightmares"},
+{p:"An anxious banana being interviewed for a smoothie position",c:"existential dread"},
+{p:"Gordon Ramsay energy but it's a chihuahua screaming at a burnt steak",c:"culinary chaos"},
+{p:"Board meeting where the CEO is three raccoons in a trench coat",c:"corporate horror"},
+{p:"A philosophical corgi questioning the nature of 'good boy'",c:"existential dread"},
+{p:"A dramatic movie poster for a thriller starring a single sock",c:"cinematic universe"},
+{p:"Renaissance painting of a seagull stealing fries, dramatic lighting",c:"art history brainrot"},
+{p:"A pigeon in a business suit closing a major deal on Wall Street",c:"corporate horror"},
+{p:"A frog in a tuxedo proposing to a mushroom at sunset",c:"forbidden romance"},
+{p:"A cat wearing a tiny lab coat performing surgery on a watermelon",c:"science gone wrong"},
+{p:"Medieval knights jousting on office chairs in a parking lot",c:"historical malfunction"},
+{p:"A dog as a serious news anchor reporting on a squirrel invasion",c:"breaking news"},
+{p:"A raccoon teaching a university class about dumpster optimization",c:"academia"},
+{p:"An octopus working as a barista making 8 drinks simultaneously",c:"workplace horror"},
+{p:"Courtroom drama but everyone is a vegetable",c:"legal brainrot"},
+{p:"A capybara as a lifeguard saving a drowning rubber duck",c:"hero arc"},
+{p:"Two pigeons in trench coats pretending to be a human at a movie theater",c:"crime documentary"},
+{p:"A shrimp doing an intense workout at a tiny gym",c:"fitness motivation"},
+{p:"A lobster in a hot tub looking uncomfortable and existential",c:"existential dread"},
+{p:"A crab with tiny boxing gloves fighting its own reflection",c:"existential dread"},
+{p:"An owl as a DJ at a forest rave, laser lights, smoke machine",c:"nightlife"},
+{p:"A horse trying to use a laptop with hooves, extremely frustrated",c:"tech support"},
+{p:"A very formal state dinner but all the guests are housecats",c:"political satire"},
+{p:"A pangolin in full samurai armor, dramatically posed",c:"warrior arc"},
+{p:"A formal family portrait but one family member is clearly a lamp",c:"cinematic universe"},
+{p:"A traffic jam of rubber ducks on a highway, aerial drone photo",c:"cinematic universe"},
+{p:"Live Laugh Love sign but in a raccoon's trash den",c:"inspirational"},
+{p:"A caterpillar at the gym labeled pre-transformation grind",c:"inspirational"},
+{p:"A printer that has achieved sentience and is now demanding a raise",c:"workplace horror"},
+{p:"Corporate headshot of a potato who just got promoted to VP",c:"corporate horror"},
+{p:"A goldfish staring out the window of its bowl contemplating the void",c:"existential dread"},
+{p:"Mugshot of a seagull arrested for stealing 47 french fries",c:"crime documentary"},
+{p:"A sushi roll running away from chopsticks, action movie scene",c:"culinary chaos"},
+{p:"A snail finishing a marathon in last place but extremely proud",c:"fitness motivation"},
+{p:"David Attenborough narrating a pigeon eating a pizza crust",c:"nature documentary"},
+{p:"Campaign rally where the candidate is a golden retriever",c:"political satire"}
+];
+let lk=new Set(),lc=0,BS=5,il=false,ac='all',lt=0;
+function sh(a){let r=[...a];for(let i=r.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
+let sf=sh(P);
+function hs(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return Math.abs(h)}
+function sr(s){let x=s;return function(){x=(x*16807)%2147483647;return(x-1)/2147483646}}
+function ga(cv,pr,ix){
+let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+let sd=hs(pr)+ix*777,r=sr(sd),st=Math.floor(r()*5),h1=Math.floor(r()*360),h2=(h1+40+Math.floor(r()*40))%360;
+let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,`hsl(${h1},50%,10%)`);g.addColorStop(1,`hsl(${h2},50%,5%)`);c.fillStyle=g;c.fillRect(0,0,W,H);
+if(st===0){for(let i=0;i<40;i++){let x=r()*W,y=r()*H,rd=r()*150+30,g2=c.createRadialGradient(x,y,0,x,y,rd);g2.addColorStop(0,`hsla(${(h1+r()*120)%360},80%,50%,${.1+r()*.15})`);g2.addColorStop(1,'transparent');c.fillStyle=g2;c.fillRect(0,0,W,H)}}
+else if(st===1){for(let i=0;i<200;i++){let x=r()*W,y=r()*H;c.beginPath();c.moveTo(x,y);c.strokeStyle=`hsla(${(h1+r()*80)%360},70%,55%,${.1+r()*.2})`;c.lineWidth=.5+r()*2;for(let s=0;s<50;s++){let an=(Math.sin(x*.005+sd*.01)+Math.cos(y*.005))*Math.PI;x+=Math.cos(an)*4;y+=Math.sin(an)*4;if(x<0||x>W||y<0||y>H)break;c.lineTo(x,y)}c.stroke()}}
+else if(st===2){for(let i=0;i<60;i++){c.fillStyle=`hsla(${(h1+r()*90)%360},${50+r()*50}%,${30+r()*30}%,${.1+r()*.3})`;c.fillRect(r()*W,r()*H,r()*200+10,r()*30+2)}for(let y=0;y<H;y+=3){c.fillStyle=`rgba(0,0,0,${.1+r()*.1})`;c.fillRect(0,y,W,1)}}
+else if(st===3){let pts=[];for(let i=0;i<80;i++)pts.push({x:r()*W,y:r()*H,r:r()*3+1});c.strokeStyle=`hsla(${h1},50%,60%,.1)`;c.lineWidth=.5;for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){if(Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y)<80){c.beginPath();c.moveTo(pts[i].x,pts[i].y);c.lineTo(pts[j].x,pts[j].y);c.stroke()}}pts.forEach(p=>{let g3=c.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);g3.addColorStop(0,`hsla(${h2},80%,70%,.8)`);g3.addColorStop(1,'transparent');c.fillStyle=g3;c.beginPath();c.arc(p.x,p.y,p.r*4,0,Math.PI*2);c.fill()})}
+else{for(let i=0;i<15;i++){let cx=r()*W,cy=r()*H;c.fillStyle=`hsla(${(h1+r()*100)%360},60%,45%,${.08+r()*.12})`;c.beginPath();for(let s=0;s<=60;s++){let an=(s/60)*Math.PI*2,br=50+r()*100,nr=br+Math.sin(an*3+sd)*30;let px=cx+Math.cos(an)*nr,py=cy+Math.sin(an)*nr;s===0?c.moveTo(px,py):c.lineTo(px,py)}c.closePath();c.fill()}}
+let v=c.createRadialGradient(W/2,H/2,W*.3,W/2,H/2,W*.8);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(0,0,0,.5)');c.fillStyle=v;c.fillRect(0,0,W,H);
+let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*15;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0)}
+function gr(i){let rl=(hs(P[i%P.length].p)%100);return rl<3?'legendary':rl<12?'epic':rl<30?'rare':'common'}
+function fl(i){let b=hs(P[i%P.length].p),ra=gr(i),m=ra==='legendary'?50:ra==='epic'?15:ra==='rare'?5:1;return Math.floor((b%800)*m+10)}
+function fn(n){return n>=1000?(n/1000).toFixed(1)+'k':n.toString()}
+function cc(it,ix){
+let d=document.createElement('div');d.className='cd';d.dataset.category=it.c;d.dataset.index=ix;
+let ra=gr(ix),lks=fl(ix),vw=lks*(3+Math.floor(Math.random()*5));
+let cv=document.createElement('canvas');d.appendChild(cv);
+d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class="ca"><button class="ab lkb" data-id="${ix}">\u2764\uFE0F</button><div class="ac lkc">${fn(lks)}</div><button class="ab svb" data-id="${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="${ix}" data-p="${encodeURIComponent(it.p)}">\u2197</button><div class="ac">Share</div></div></div>`;
+requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2)ga(c2,it.p,ix)});
+return d}
+function gf(){return ac==='all'?sf:sf.filter(p=>p.c===ac)}
+function lb(){if(il)return;il=true;let fd=document.getElementById('fd'),its=gf(),s=lc,e=Math.min(s+BS,its.length);
+if(s>=its.length){sf=sh(P);lc=0;il=false;return lb()}
+for(let i=s;i<e;i++){let cd=cc(its[i],i);fd.appendChild(cd);setTimeout(()=>cd.classList.add('v'),(i-s)*80)}
+lc=e;il=false}
+new IntersectionObserver(e=>{if(e[0].isIntersecting)lb()},{rootMargin:'600px'}).observe(document.getElementById('ld'));
+window.addEventListener('scroll',()=>{let s=window.scrollY,t=document.body.scrollHeight-window.innerHeight;document.getElementById('sp').style.width=Math.min((s/t)*100,100)+'%'});
+setInterval(()=>{let el=document.getElementById('oc'),c=parseInt(el.textContent.replace(/,/g,''));el.textContent=Math.max(2000,c+Math.floor(Math.random()*30)-12).toLocaleString()},3000);
+function st(m){let t=document.getElementById('to');t.textContent=m;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2000)}
+document.addEventListener('click',e=>{
+let lb2=e.target.closest('.lkb');if(lb2){e.stopPropagation();let id=lb2.dataset.id;if(lk.has(id)){lk.delete(id);lb2.classList.remove('lk')}else{lk.add(id);lb2.classList.add('lk')}return}
+let sv=e.target.closest('.svb');if(sv){e.stopPropagation();let cd=sv.closest('.cd'),cv=cd?.querySelector('canvas');if(!cv)return;
+let sc=document.createElement('canvas');sc.width=1080;sc.height=1080;let cx=sc.getContext('2d');cx.drawImage(cv,0,0,1080,1080);
+let gd=cx.createLinearGradient(0,400,0,1080);gd.addColorStop(0,'transparent');gd.addColorStop(.5,'rgba(0,0,0,.6)');gd.addColorStop(1,'rgba(0,0,0,.95)');cx.fillStyle=gd;cx.fillRect(0,0,1080,1080);
+let pr=cd.querySelector('.ct')?.textContent||'';cx.fillStyle='rgba(255,255,255,.4)';cx.font='700 20px Space Grotesk,sans-serif';cx.textAlign='right';cx.fillText('rotfeed',1050,40);cx.textAlign='left';cx.fillStyle='#ff2d55';cx.font='700 24px Space Grotesk,sans-serif';cx.fillText((cd.querySelector('.cc')?.textContent||'').toUpperCase(),50,920);cx.fillStyle='#fff';cx.font='700 38px Space Grotesk,sans-serif';let w=pr.split(' '),ln='',y=960,mx=980;for(let wd of w){let ts=ln+wd+' ';if(cx.measureText(ts).width>mx&&ln){cx.fillText(ln.trim(),50,y);ln=wd+' ';y+=48}else ln=ts}if(ln)cx.fillText(ln.trim(),50,y);
+try{sc.toBlob(b=>{let u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`rotfeed-${Date.now()}.png`;a.click();URL.revokeObjectURL(u)},'image/png');st('\uD83D\uDCBE Card saved!')}catch(e2){st('Long press to save')}return}
+let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': "'+pr+'"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st('\uD83D\uDCCB Link copied!'));return}
+let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
+document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);lb();lb();st(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
+// PWA Service Worker registration
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+// Haptic feedback on like (mobile)
+document.addEventListener('click',e=>{if(e.target.closest('.lkb')&&navigator.vibrate)navigator.vibrate(10)});
+lb();lb();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>BrainRot.app</title>
 <meta property="og:title" content="BrainRot.app — You've Been Warned">

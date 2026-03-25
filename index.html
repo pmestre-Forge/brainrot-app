@@ -427,14 +427,14 @@ function demoCollide(words,mood){
   return {fragments:[collision],collision,mood};
 }
 
-function apiCollide(words,mood){
+async function apiCollide(words,mood){
   return fetch(WORKER_URL+'/api/collide',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({words,mood})
   }).then(r=>{if(!r.ok)throw new Error('API error');return r.json()}).catch(()=>demoCollide(words,mood));
 }
-function doCollide(){
+async function doCollide(){
   if(isColliding)return;
   let w1v=document.getElementById('w1').value.trim();
   let w2v=document.getElementById('w2').value.trim();

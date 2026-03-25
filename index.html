@@ -238,15 +238,69 @@ function cc(it,ix){
   return d
 }
 
+// Meme-style canvas: big bold text on vivid gradient
+function memeRender(cv,text,mood,seed){
+  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let r=sr(seed);
+  let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
+  let cols=moodColors[mood]||moodColors.chaotic;
+  let g=c.createLinearGradient(0,0,r()>0.5?W:0,H);
+  g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  for(let i=0;i<8;i++){c.save();c.globalAlpha=0.08+r()*0.1;c.fillStyle=r()>0.5?cols[0]:cols[1];c.beginPath();c.arc(r()*W,r()*H,r()*200+50,0,Math.PI*2);c.fill();c.restore()}
+  c.textAlign='center';c.textBaseline='middle';
+  let words=text.toUpperCase().split(' ');
+  let fontSize=Math.min(72,Math.floor(2400/(text.length+1)));
+  if(fontSize<28)fontSize=28;
+  c.font='900 '+fontSize+'px "Space Grotesk",Impact,sans-serif';
+  let lines=[],ln='',maxW=W-60;
+  for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
+  if(ln)lines.push(ln);
+  let totalH=lines.length*fontSize*1.15;
+  let startY=H/2-totalH/2+fontSize/2;
+  lines.forEach((line,i)=>{let y=startY+i*fontSize*1.15;c.strokeStyle='rgba(0,0,0,0.9)';c.lineWidth=fontSize/5;c.lineJoin='round';c.strokeText(line,W/2,y);c.fillStyle='#fff';c.fillText(line,W/2,y)});
+  let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*20;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0);
+}
+
+// Glitch-style canvas: scanlines, RGB split, fragmented text
+function glitchRender(cv,text,mood,seed){
+  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let r=sr(seed);
+  c.fillStyle='#0a0a0a';c.fillRect(0,0,W,H);
+  let h1=Math.floor(r()*360);
+  for(let i=0;i<30;i++){let x=r()*W-50,y=r()*H,w=r()*300+20,h2=r()*40+5;c.fillStyle='hsla('+(h1+r()*120)%360+',90%,50%,'+(0.05+r()*0.15)+')';c.fillRect(x,y,w,h2)}
+  for(let y=0;y<H;y+=2){c.fillStyle='rgba(0,0,0,'+(0.2+r()*0.1)+')';c.fillRect(0,y,W,1)}
+  let fontSize=Math.min(56,Math.floor(2000/(text.length+1)));
+  if(fontSize<24)fontSize=24;
+  c.font='700 '+fontSize+'px "Space Grotesk",monospace';c.textAlign='center';c.textBaseline='middle';
+  let words=text.toUpperCase().split(' '),lines=[],ln='',maxW=W-80;
+  for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
+  if(ln)lines.push(ln);
+  let totalH=lines.length*fontSize*1.2;
+  let startY=H/2-totalH/2+fontSize/2;
+  let offR=2+Math.floor(r()*4),offB=-(2+Math.floor(r()*4));
+  lines.forEach((line,i)=>{let y=startY+i*fontSize*1.2;c.globalCompositeOperation='lighter';c.fillStyle='rgba(255,0,0,0.7)';c.fillText(line,W/2+offR,y);c.fillStyle='rgba(0,255,0,0.7)';c.fillText(line,W/2,y);c.fillStyle='rgba(0,100,255,0.7)';c.fillText(line,W/2+offB,y);c.globalCompositeOperation='source-over'});
+  for(let i=0;i<5;i++){let y=Math.floor(r()*H),h2=Math.floor(r()*15)+3,shift=Math.floor(r()*40)-20;let strip=c.getImageData(0,y,W,h2);c.putImageData(strip,shift,y)}
+  let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*30;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0);
+}
+
 function createChaosCard(collision, words, mood){
   let d=document.createElement('div');
   d.className='cd user-card';
   d.dataset.category=mood;
   let promptSeed = words.join(' ') + collision;
   let ix = Math.floor(Math.random()*10000);
+  let seed = hs(promptSeed)+ix*777;
   let cv=document.createElement('canvas');d.appendChild(cv);
-  d.innerHTML+=`<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${mood} \u00B7 ${words.join(' + ')}</div><div class="ct">${collision}</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class="ca"><button class="ab lkb" data-id="u${ix}">\u2764\uFE0F</button><div class="ac lkc">0</div><button class="ab svb" data-id="u${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="u${ix}" data-p="${encodeURIComponent(collision)}">\u2197</button><div class="ac">Share</div></div></div>`;
-  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2)ga(c2,promptSeed,ix)});
+  let visualStyle = Math.floor(Math.random()*3);
+  d.innerHTML+='<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">'+mood+' \u00B7 '+words.join(' + ')+'</div><div class="ct">'+collision+'</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class="ca"><button class="ab lkb" data-id="u'+ix+'">\u2764\uFE0F</button><div class="ac lkc">0</div><button class="ab svb" data-id="u'+ix+'">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="u'+ix+'" data-p="'+encodeURIComponent(collision)+'">\u2197</button><div class="ac">Share</div></div></div>';
+  requestAnimationFrame(()=>{
+    let c2=d.querySelector('canvas');
+    if(!c2)return;
+    if(visualStyle===0) ga(c2,promptSeed,ix);
+    else if(visualStyle===1) memeRender(c2,collision,mood,seed);
+    else glitchRender(c2,collision,mood,seed);
+  });
   return d
 }
 function gf(){return ac==='all'?sf:sf.filter(p=>p.c===ac)}
@@ -296,26 +350,81 @@ function closePortal(){
   document.body.style.overflow='';
 }
 
-// Chaos Engine
-const STITCH={unhinged:' \u2014 MEANWHILE \u2014 ',cursed:' ...and then the void whispered... ',dreamy:' ~~ ',angry:' !!! ',cosmic:' \u2726 ',chaotic:null};
-
-const DEMO_FRAGMENTS=[
-  ["The {w} achieved sentience at 3am and started a podcast","Nobody expected the {w} to betray the committee","In a parallel dimension, {w} is a respected senator"],
-  ["Every {w} carries the weight of a thousand screams","The {w} looked into the mirror and saw only static","Scientists confirm: {w} is technically a cryptid"],
-  ["A {w} walked into a boardroom and fired everyone","The prophecy was clear: the {w} would rise at dawn","Breaking: {w} found guilty of being too powerful"]
-];
+// ============ CHAOS ENGINE ============
+const CURSED_TEMPLATES={
+  unhinged:[
+    "{1} wearing {2} as a hat while aggressively presenting {3} to the board",
+    "a {1} that is also somehow a {2} filing a restraining order against {3}",
+    "{1} in a custody battle with {2} over who gets {3} on weekends",
+    "the moment {1} realized {2} was just {3} in a trench coat",
+    "{1} speedrunning {2} while {3} watches in horror",
+    "HR called about the {1} incident involving {2} and an unlicensed {3}",
+    "{1} going through {2}'s search history and finding nothing but {3}",
+    "a {1} and a {2} in couples therapy because of {3}",
+    "{1} achieving final form by absorbing {2} and {3} simultaneously",
+    "POV: {1} just caught {2} and {3} plotting world domination at Denny's"
+  ],
+  cursed:[
+    "{1} with {2} energy radiating pure {3} at 3am",
+    "a {1} that whispers {2} into the void and {3} whispers back",
+    "{1} but it's haunted by the ghost of {2} and smells like {3}",
+    "the sleep paralysis demon is just {1} holding {2} and crying about {3}",
+    "if {1} and {2} had a baby it would be {3} but worse",
+    "{1} found in an abandoned {2} surrounded by drawings of {3}",
+    "cursed image of {1} fused with {2} gaining the power of {3}",
+    "nobody talks about the {1} that ate {2} and became {3}",
+    "{1} staring at {2} with {3} intent",
+    "{3} but it's made entirely of {1} and powered by {2}"
+  ],
+  dreamy:[
+    "{1} floating through a {2} sky while {3} plays softly",
+    "a world where {1} and {2} are the same thing and {3} is the sun",
+    "{1} dissolving into {2} as {3} watches from the clouds",
+    "the feeling of being {1} in a field of {2} at golden hour with {3}",
+    "if {1} was a color it would be {2} flavored {3}",
+    "{1} and {2} slow dancing while {3} narrates in a whisper",
+    "that moment between {1} and {2} where everything tastes like {3}",
+    "a {1} shaped {2} drifting through a sea of liquid {3}"
+  ],
+  angry:[
+    "{1} ABSOLUTELY DESTROYING {2} with the power of {3}",
+    "BREAKING: {1} declares war on {2} armed only with {3}",
+    "{1} punching {2} into next week while screaming about {3}",
+    "a {1} so mad about {2} it spontaneously became {3}",
+    "{1} vs {2} in a cage match refereed by {3}",
+    "the AUDACITY of {1} disrespecting {2} in front of {3}",
+    "{1} didn't just choose violence, {1} chose {2} and {3} violence",
+    "WANTED: {1} for crimes against {2} involving {3}"
+  ],
+  cosmic:[
+    "{1} orbiting {2} at the edge of a {3}-shaped galaxy",
+    "the universe is just {1} dreaming about {2} inside {3}",
+    "{1} and {2} are the same entity experiencing {3} from different dimensions",
+    "in the cosmic void between {1} and {2} there exists only {3}",
+    "ancient aliens built {1} out of {2} to channel {3} energy",
+    "{1} is what happens when {2} collapses into a {3} singularity",
+    "the fabric of spacetime is woven from {1}, {2}, and pure {3}",
+    "a {1} experiencing ego death after merging with {2} inside {3}"
+  ],
+  chaotic:[
+    "{1} {2} {3} and nobody can stop it",
+    "what if {1} but {2} and also {3} for some reason",
+    "{3} inside {1} on top of {2} at terminal velocity",
+    "a {1} a {2} and a {3} walk into existence and refuse to leave",
+    "{1} speedrunning {2} any% {3} glitchless",
+    "unauthorized {1} detected in the {2} containment zone near {3}",
+    "{2} but replace every atom with {1} and set it on fire with {3}",
+    "local {1} too angry to die, fueled by {2}, feared by {3}",
+    "{1} is just {2} with extra {3} and nobody is ready for that conversation",
+    "ALERT: {1} has breached {2} perimeter, {3} defenses failing"
+  ]
+};
 
 function demoCollide(words,mood){
-  let frags=words.map((w,i)=>{
-    let templates=DEMO_FRAGMENTS[i%DEMO_FRAGMENTS.length];
-    let t=templates[Math.floor(Math.random()*templates.length)];
-    return t.replace('{w}',w);
-  });
-  let sep=STITCH[mood];
-  let collision;
-  if(sep===null){let shuffled=sh(frags);collision=shuffled.join(' \u2014 ');}
-  else{collision=frags.join(sep);}
-  return {fragments:frags,collision,mood};
+  let templates=CURSED_TEMPLATES[mood]||CURSED_TEMPLATES.chaotic;
+  let t=templates[Math.floor(Math.random()*templates.length)];
+  let collision=t.replace(/\{1\}/g,words[0]).replace(/\{2\}/g,words[1]).replace(/\{3\}/g,words[2]);
+  return {fragments:[collision],collision,mood};
 }
 
 function apiCollide(words,mood){
@@ -347,17 +456,15 @@ function doCollide(){
   if(WORKER_URL){p=apiCollide(words,selectedMood);}
   else{p=new Promise(r=>setTimeout(()=>r(demoCollide(words,selectedMood)),1500));}
   p.then(result=>{
-    let frags=result.fragments||[result.collision];
-    let delay=0;
-    frags.forEach((f,i)=>{
-      setTimeout(()=>{
-        let div=document.createElement('div');div.className='chaos-frag';div.textContent=f;
-        cf.appendChild(div);
-        setTimeout(()=>div.classList.add('vis'),50);
-      },delay);
-      delay+=600;
-    });
-    setTimeout(()=>{cs.textContent='\u26A1 COLLISION COMPLETE';cs.classList.add('vis');if(navigator.vibrate)navigator.vibrate([50,50,100]);},delay+400);
+    let div=document.createElement('div');
+  div.className='chaos-frag';div.textContent=result.collision;
+  cf.appendChild(div);
+  await new Promise(r=>setTimeout(r,300));
+  div.classList.add('vis');
+
+  await new Promise(r=>setTimeout(r,600));
+  cs.textContent='\u26A1 COLLISION COMPLETE';
+  cs.classList.add('vis');
     setTimeout(()=>{
       ov.classList.remove('active');
       let card=createChaosCard(result.collision,words,selectedMood);

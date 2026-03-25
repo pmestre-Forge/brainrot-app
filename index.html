@@ -62,91 +62,227 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
 .wm{position:absolute;top:12px;right:12px;font-size:10px;color:rgba(255,255,255,.15);font-weight:700;letter-spacing:.5px;pointer-events:none;z-index:2}
 .ld{text-align:center;padding:40px;color:var(--tdd);font-size:13px}
 .lb{width:60px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;margin:0 auto 12px;overflow:hidden}
-.lb::after{content:\'\';display:block;width:30%;height:100%;background:var(--a);border-radius:3px;animation:ls 1s ease-in-out infinite}
+.lb::after{content:'';display:block;width:30%;height:100%;background:var(--a);border-radius:3px;animation:ls 1s ease-in-out infinite}
 @keyframes ls{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
 .to{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--cb);color:#fff;padding:12px 24px;border-radius:100px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:200;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding-bottom:max(12px,env(safe-area-inset-bottom))}
 .to.sh{opacity:1;transform:translateX(-50%) translateY(0)}
 .sp{position:fixed;top:0;left:0;height:2px;background:var(--a);z-index:200;transition:width .1s;box-shadow:0 0 10px rgba(255,45,85,.3)}
-/* PULL-TO-CREATE PORTAL */
-.portal-zone{position:fixed;top:0;left:0;right:0;z-index:97;max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1),opacity .3s;opacity:0;background:linear-gradient(180deg,rgba(255,45,85,.06) 0%,rgba(5,5,5,.99) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:max(12px,env(safe-area-inset-top))}
+
+/* ===== PULL-TO-CREATE PORTAL ===== */
+.portal-hint{
+  position:fixed;top:88px;left:50%;transform:translateX(-50%);
+  z-index:98;pointer-events:none;opacity:0;transition:opacity .4s;
+  font-size:11px;color:var(--td);letter-spacing:.5px;font-weight:600;
+  display:flex;align-items:center;gap:6px;
+  background:rgba(5,5,5,.9);padding:6px 14px;border-radius:100px;
+  border:1px solid rgba(255,45,85,.15);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)
+}
+.portal-hint.vis{opacity:1}
+.portal-hint .arr{display:inline-block;animation:barr .8s ease-in-out infinite}
+@keyframes barr{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+.portal-zone{
+  position:fixed;top:0;left:0;right:0;z-index:97;
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.22,1,.36,1),opacity .3s;
+  opacity:0;
+  background:linear-gradient(180deg,rgba(255,45,85,.06) 0%,rgba(5,5,5,.99) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding-top:max(12px,env(safe-area-inset-top))
+}
 .portal-zone.open{max-height:100vh;opacity:1}
 .portal-zone.open .portal-inner{opacity:1;transform:translateY(0)}
-.portal-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(255,45,85,.15) 0%,transparent 70%);pointer-events:none;animation:pglow 3s ease-in-out infinite;border-radius:50%}
+
+.portal-glow{
+  position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(255,45,85,.15) 0%,transparent 70%);
+  pointer-events:none;animation:pglow 3s ease-in-out infinite;
+  border-radius:50%
+}
 @keyframes pglow{0%,100%{opacity:.5;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.2)}}
-.portal-inner{max-width:480px;width:100%;padding:80px 20px 30px;opacity:0;transform:translateY(-20px);transition:opacity .5s .1s,transform .5s .1s cubic-bezier(.22,1,.36,1);position:relative;z-index:2}
-.portal-title{text-align:center;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--a);margin-bottom:20px;text-shadow:0 0 20px rgba(255,45,85,.3)}
+
+.portal-inner{
+  max-width:480px;width:100%;padding:80px 20px 30px;
+  opacity:0;transform:translateY(-20px);
+  transition:opacity .5s .1s,transform .5s .1s cubic-bezier(.22,1,.36,1);
+  position:relative;z-index:2
+}
+
+.portal-title{
+  text-align:center;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+  color:var(--a);margin-bottom:20px;
+  text-shadow:0 0 20px rgba(255,45,85,.3)
+}
+
 .portal-words{display:flex;gap:8px;margin-bottom:14px}
-.portal-words input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 12px;color:#fff;font-family:inherit;font-size:16px;font-weight:600;text-align:center;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.portal-words input{
+  flex:1;min-width:0;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:14px 12px;
+  color:#fff;font-family:inherit;font-size:16px;font-weight:600;
+  text-align:center;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none
+}
 .portal-words input::placeholder{color:rgba(255,255,255,.2);font-weight:400;font-size:13px}
 .portal-words input:focus{border-color:var(--a);box-shadow:0 0 16px rgba(255,45,85,.15)}
+
 .portal-moods{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
-.portal-mood{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--td);transition:all .2s;-webkit-tap-highlight-color:transparent}
-.portal-mood:hover,.portal-mood.sel{background:var(--a);border-color:var(--a);color:#fff;box-shadow:0 0 12px rgba(255,45,85,.3)}
-.portal-collide{display:block;width:100%;padding:16px;background:var(--a);border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.portal-mood{
+  padding:6px 14px;border-radius:100px;
+  font-size:11px;font-weight:600;cursor:pointer;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);color:var(--td);
+  transition:all .2s;-webkit-tap-highlight-color:transparent
+}
+.portal-mood:hover,.portal-mood.sel{
+  background:var(--a);border-color:var(--a);color:#fff;
+  box-shadow:0 0 12px rgba(255,45,85,.3)
+}
+
+.portal-collide{
+  display:block;width:100%;padding:16px;
+  background:var(--a);border:none;border-radius:16px;
+  color:#fff;font-family:inherit;font-size:16px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .15s,box-shadow .2s;
+  -webkit-tap-highlight-color:transparent
+}
 .portal-collide:active{transform:scale(.97)}
 .portal-collide:hover{box-shadow:0 0 30px rgba(255,45,85,.4)}
 .portal-collide:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.portal-collide .btn-glow{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:btnglow 2s ease-in-out infinite}
+.portal-collide .btn-glow{
+  position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:btnglow 2s ease-in-out infinite
+}
 @keyframes btnglow{0%{left:-100%}100%{left:100%}}
-.portal-close{display:block;margin:12px auto 0;background:none;border:none;color:var(--tdd);font-family:inherit;font-size:11px;cursor:pointer;padding:8px 16px;letter-spacing:.5px}
+
+.portal-close{
+  display:block;margin:12px auto 0;
+  background:none;border:none;color:var(--tdd);
+  font-family:inherit;font-size:11px;cursor:pointer;
+  padding:8px 16px;letter-spacing:.5px
+}
 .portal-close:hover{color:var(--t)}
-/* Chaos overlay */
-.chaos-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;background:rgba(5,5,5,.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+
+/* Chaos animation overlay */
+.chaos-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;
+  background:rgba(5,5,5,.95);
+  display:none;align-items:center;justify-content:center;
+  flex-direction:column;gap:16px
+}
 .chaos-overlay.active{display:flex}
-.chaos-text{font-size:14px;color:var(--a);font-weight:700;letter-spacing:2px;text-transform:uppercase;animation:chaospulse 1s ease-in-out infinite}
+.chaos-text{
+  font-size:14px;color:var(--a);font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  animation:chaospulse 1s ease-in-out infinite
+}
 @keyframes chaospulse{0%,100%{opacity:.5;text-shadow:0 0 10px rgba(255,45,85,.3)}50%{opacity:1;text-shadow:0 0 30px rgba(255,45,85,.6)}}
 .chaos-words{display:flex;gap:20px;margin-top:10px}
-.chaos-word{font-size:24px;font-weight:700;color:var(--t);opacity:0;animation:wordpop .5s forwards}
+.chaos-word{
+  font-size:24px;font-weight:700;color:var(--t);opacity:0;
+  animation:wordpop .5s forwards
+}
 .chaos-word:nth-child(2){animation-delay:.3s}
 .chaos-word:nth-child(3){animation-delay:.6s}
 @keyframes wordpop{0%{opacity:0;transform:scale(0) rotate(-20deg)}60%{transform:scale(1.2) rotate(5deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
-.chaos-fragments{display:flex;flex-direction:column;gap:6px;max-width:400px;text-align:center;margin-top:16px}
-.chaos-frag{font-size:12px;color:var(--td);opacity:0;font-style:italic;letter-spacing:.3px}
+.chaos-fragments{
+  display:flex;flex-direction:column;gap:6px;
+  max-width:400px;text-align:center;margin-top:16px
+}
+.chaos-frag{
+  font-size:12px;color:var(--td);opacity:0;
+  font-style:italic;letter-spacing:.3px
+}
 .chaos-frag.vis{animation:fragfade .4s forwards}
 @keyframes fragfade{to{opacity:1}}
-.chaos-stitch{font-size:11px;color:var(--a);font-weight:600;letter-spacing:1px;opacity:0;margin-top:8px}
+.chaos-stitch{
+  font-size:11px;color:var(--a);font-weight:600;
+  letter-spacing:1px;opacity:0;margin-top:8px
+}
 .chaos-stitch.vis{animation:stitchglow .6s forwards}
 @keyframes stitchglow{0%{opacity:0;transform:scale(.8)}100%{opacity:1;transform:scale(1);text-shadow:0 0 20px rgba(255,45,85,.5)}}
+
+/* Chaos card (user-created) badge */
 .cd.user-card .rb{background:rgba(255,45,85,.5);color:#fff;border:1px solid rgba(255,45,85,.4);display:block!important}
-.create-fab{position:fixed;bottom:30px;right:20px;z-index:150;width:56px;height:56px;border-radius:50%;background:var(--a);border:none;color:#fff;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(255,45,85,.4);transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;padding-bottom:max(0px,calc(env(safe-area-inset-bottom) - 20px))}
+
+/* Create button (floating, shows when at top) */
+.create-fab{
+  position:fixed;bottom:30px;right:20px;z-index:150;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--a);border:none;
+  color:#fff;font-size:24px;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(255,45,85,.4);
+  transition:transform .2s,box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;
+  display:flex;align-items:center;justify-content:center;
+  padding-bottom:max(0px,calc(env(safe-area-inset-bottom) - 20px))
+}
 .create-fab:active{transform:scale(.9)}
 .create-fab:hover{box-shadow:0 4px 30px rgba(255,45,85,.6);transform:scale(1.05)}
-.create-fab .fab-pulse{position:absolute;width:100%;height:100%;border-radius:50%;border:2px solid var(--a);animation:fabpulse 2s ease-out infinite}
+.create-fab .fab-pulse{
+  position:absolute;width:100%;height:100%;border-radius:50%;
+  border:2px solid var(--a);
+  animation:fabpulse 2s ease-out infinite
+}
 @keyframes fabpulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.8);opacity:0}}
-@media(max-width:540px){.fd{padding:95px 6px 32px;gap:10px}.cd{border-radius:16px}.portal-words{gap:6px}.portal-words input{padding:12px 8px;font-size:14px;border-radius:12px}.portal-inner{padding:75px 14px 24px}}
+
+@media(max-width:540px){
+  .fd{padding:95px 6px 32px;gap:10px}
+  .cd{border-radius:16px}
+  .portal-words{gap:6px}
+  .portal-words input{padding:12px 8px;font-size:14px;border-radius:12px}
+  .portal-inner{padding:75px 14px 24px}
+}
 @media(display-mode:standalone){.ib{display:none}}
 </style>
 </head>
 <body>
 <div class="sp" id="sp"></div>
-<div class="hd"><div class="hi"><div class="lo"><div class="li">🧠</div>rot<span>feed</span></div><div class="st"><span class="sd"></span><span id="oc">2,847</span> rotting</div></div></div>
-<div class="cats"><div class="cs" id="cb"><div class="cp on" data-c="all">🔥 All</div><div class="cp" data-c="corporate horror">💼 Corporate</div><div class="cp" data-c="forbidden romance">💕 Romance</div><div class="cp" data-c="crime documentary">🔍 Crime</div><div class="cp" data-c="existential dread">🌀 Existential</div><div class="cp" data-c="workplace horror">😰 Workplace</div><div class="cp" data-c="art history brainrot">🎨 Art</div></div></div>
+<div class="hd"><div class="hi"><div class="lo"><div class="li">&#x1F9E0;</div>rot<span>feed</span></div><div class="st"><span class="sd"></span><span id="oc">2,847</span> rotting</div></div></div>
+<div class="cats"><div class="cs" id="cb"><div class="cp on" data-c="all">&#x1F525; All</div><div class="cp" data-c="corporate horror">&#x1F4BC; Corporate</div><div class="cp" data-c="forbidden romance">&#x1F495; Romance</div><div class="cp" data-c="crime documentary">&#x1F50D; Crime</div><div class="cp" data-c="existential dread">&#x1F300; Existential</div><div class="cp" data-c="workplace horror">&#x1F630; Workplace</div><div class="cp" data-c="art history brainrot">&#x1F3A8; Art</div></div></div>
 
 <!-- PULL-TO-CREATE PORTAL -->
 <div class="portal-zone" id="pz">
   <div class="portal-glow"></div>
   <div class="portal-inner">
-    <div class="portal-title">🧪 drop 3 words into the void</div>
+    <div class="portal-title">&#x1F9EA; drop 3 words into the void</div>
     <div class="portal-words">
       <input type="text" id="w1" placeholder="word 1" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
       <input type="text" id="w2" placeholder="word 2" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
       <input type="text" id="w3" placeholder="word 3" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
     </div>
     <div class="portal-moods" id="pm">
-      <div class="portal-mood sel" data-m="unhinged">🤯 unhinged</div>
-      <div class="portal-mood" data-m="cursed">💀 cursed</div>
-      <div class="portal-mood" data-m="dreamy">✨ dreamy</div>
-      <div class="portal-mood" data-m="angry">🔥 angry</div>
-      <div class="portal-mood" data-m="cosmic">🌌 cosmic</div>
-      <div class="portal-mood" data-m="chaotic">🌀 chaotic</div>
+      <div class="portal-mood sel" data-m="unhinged">&#x1F92F; unhinged</div>
+      <div class="portal-mood" data-m="cursed">&#x1F480; cursed</div>
+      <div class="portal-mood" data-m="dreamy">&#x2728; dreamy</div>
+      <div class="portal-mood" data-m="angry">&#x1F525; angry</div>
+      <div class="portal-mood" data-m="cosmic">&#x1F30C; cosmic</div>
+      <div class="portal-mood" data-m="chaotic">&#x1F300; chaotic</div>
     </div>
-    <button class="portal-collide" id="collideBtn" onclick="doCollide()"><span class="btn-glow"></span>💥 COLLIDE</button>
-    <button class="portal-close" onclick="closePortal()">↓ back to feed</button>
+    <button class="portal-collide" id="collideBtn" onclick="doCollide()">
+      <span class="btn-glow"></span>
+      &#x1F4A5; COLLIDE
+    </button>
+    <button class="portal-close" onclick="closePortal()">&#x2193; back to feed</button>
   </div>
 </div>
 
-<button class="create-fab" id="cfab" onclick="openPortal()"><div class="fab-pulse"></div>🧪</button>
+<!-- CREATE FAB -->
+<button class="create-fab" id="cfab" onclick="openPortal()">
+  <div class="fab-pulse"></div>
+  &#x1F9EA;
+</button>
 
+<!-- CHAOS ANIMATION OVERLAY -->
 <div class="chaos-overlay" id="chaosOv">
   <div class="chaos-text">colliding realities...</div>
   <div class="chaos-words" id="chaosWords"></div>
@@ -159,7 +295,10 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
 <div class="to" id="to"></div>
 
 <script>
-const WORKER_URL = '';
+// ============ CONFIG ============
+const WORKER_URL = ''; // Set to your Cloudflare Worker URL when deployed
+
+// ============ CONTENT DATA ============
 const P=[
 {p:"A business meeting of penguins in suits arguing over a PowerPoint about fish",c:"corporate horror"},
 {p:"Security camera footage of a goose stealing a laptop from Starbucks",c:"crime documentary"},
@@ -213,6 +352,7 @@ let sf=sh(P);
 
 function hs(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return Math.abs(h)}
 function sr(s){let x=s;return function(){x=(x*16807)%2147483647;return(x-1)/2147483646}}
+
 function ga(cv,pr,ix){
   let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
   let sd=hs(pr)+ix*777,r=sr(sd),st=Math.floor(r()*5),h1=Math.floor(r()*360),h2=(h1+40+Math.floor(r()*40))%360;
@@ -225,6 +365,7 @@ function ga(cv,pr,ix){
   let v=c.createRadialGradient(W/2,H/2,W*.3,W/2,H/2,W*.8);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(0,0,0,.5)');c.fillStyle=v;c.fillRect(0,0,W,H);
   let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*15;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0)
 }
+
 function gr(i){let rl=(hs(P[i%P.length].p)%100);return rl<3?'legendary':rl<12?'epic':rl<30?'rare':'common'}
 function fl(i){let b=hs(P[i%P.length].p),ra=gr(i),m=ra==='legendary'?50:ra==='epic'?15:ra==='rare'?5:1;return Math.floor((b%800)*m+10)}
 function fn(n){return n>=1000?(n/1000).toFixed(1)+'k':n.toString()}
@@ -242,59 +383,111 @@ function cc(it,ix){
 function memeRender(cv,text,mood,seed){
   let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
   let r=sr(seed);
+  // Vivid gradient bg
   let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
   let cols=moodColors[mood]||moodColors.chaotic;
   let g=c.createLinearGradient(0,0,r()>0.5?W:0,H);
   g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
   c.fillStyle=g;c.fillRect(0,0,W,H);
-  for(let i=0;i<8;i++){c.save();c.globalAlpha=0.08+r()*0.1;c.fillStyle=r()>0.5?cols[0]:cols[1];c.beginPath();c.arc(r()*W,r()*H,r()*200+50,0,Math.PI*2);c.fill();c.restore()}
+  // Random decorative shapes
+  for(let i=0;i<8;i++){
+    c.save();c.globalAlpha=0.08+r()*0.1;
+    c.fillStyle=r()>0.5?cols[0]:cols[1];
+    c.beginPath();c.arc(r()*W,r()*H,r()*200+50,0,Math.PI*2);c.fill();
+    c.restore();
+  }
+  // Impact-style text
   c.textAlign='center';c.textBaseline='middle';
   let words=text.toUpperCase().split(' ');
   let fontSize=Math.min(72,Math.floor(2400/(text.length+1)));
   if(fontSize<28)fontSize=28;
-  c.font='900 '+fontSize+'px "Space Grotesk",Impact,sans-serif';
+  c.font=`900 ${fontSize}px "Space Grotesk",Impact,sans-serif`;
+  // Word wrap
   let lines=[],ln='',maxW=W-60;
   for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
   if(ln)lines.push(ln);
   let totalH=lines.length*fontSize*1.15;
   let startY=H/2-totalH/2+fontSize/2;
-  lines.forEach((line,i)=>{let y=startY+i*fontSize*1.15;c.strokeStyle='rgba(0,0,0,0.9)';c.lineWidth=fontSize/5;c.lineJoin='round';c.strokeText(line,W/2,y);c.fillStyle='#fff';c.fillText(line,W/2,y)});
-  let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*20;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0);
+  // Text shadow + stroke
+  lines.forEach((line,i)=>{
+    let y=startY+i*fontSize*1.15;
+    c.strokeStyle='rgba(0,0,0,0.9)';c.lineWidth=fontSize/5;c.lineJoin='round';
+    c.strokeText(line,W/2,y);
+    c.fillStyle='#fff';c.fillText(line,W/2,y);
+  });
+  // Noise grain
+  let id=c.getImageData(0,0,W,H),d=id.data;
+  for(let i=0;i<d.length;i+=4){let n=(r()-.5)*20;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
+  c.putImageData(id,0,0);
 }
 
 // Glitch-style canvas: scanlines, RGB split, fragmented text
 function glitchRender(cv,text,mood,seed){
   let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
   let r=sr(seed);
+  // Dark base
   c.fillStyle='#0a0a0a';c.fillRect(0,0,W,H);
+  // Glitch blocks
   let h1=Math.floor(r()*360);
-  for(let i=0;i<30;i++){let x=r()*W-50,y=r()*H,w=r()*300+20,h2=r()*40+5;c.fillStyle='hsla('+(h1+r()*120)%360+',90%,50%,'+(0.05+r()*0.15)+')';c.fillRect(x,y,w,h2)}
-  for(let y=0;y<H;y+=2){c.fillStyle='rgba(0,0,0,'+(0.2+r()*0.1)+')';c.fillRect(0,y,W,1)}
+  for(let i=0;i<30;i++){
+    let x=r()*W-50,y=r()*H,w=r()*300+20,h2=r()*40+5;
+    c.fillStyle=`hsla(${(h1+r()*120)%360},90%,50%,${0.05+r()*0.15})`;
+    c.fillRect(x,y,w,h2);
+  }
+  // Scanlines
+  for(let y=0;y<H;y+=2){c.fillStyle=`rgba(0,0,0,${0.2+r()*0.1})`;c.fillRect(0,y,W,1)}
+  // Main text with RGB split effect
   let fontSize=Math.min(56,Math.floor(2000/(text.length+1)));
   if(fontSize<24)fontSize=24;
-  c.font='700 '+fontSize+'px "Space Grotesk",monospace';c.textAlign='center';c.textBaseline='middle';
+  c.font=`700 ${fontSize}px "Space Grotesk",monospace`;c.textAlign='center';c.textBaseline='middle';
   let words=text.toUpperCase().split(' '),lines=[],ln='',maxW=W-80;
   for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
   if(ln)lines.push(ln);
   let totalH=lines.length*fontSize*1.2;
   let startY=H/2-totalH/2+fontSize/2;
+  // RGB split
   let offR=2+Math.floor(r()*4),offB=-(2+Math.floor(r()*4));
-  lines.forEach((line,i)=>{let y=startY+i*fontSize*1.2;c.globalCompositeOperation='lighter';c.fillStyle='rgba(255,0,0,0.7)';c.fillText(line,W/2+offR,y);c.fillStyle='rgba(0,255,0,0.7)';c.fillText(line,W/2,y);c.fillStyle='rgba(0,100,255,0.7)';c.fillText(line,W/2+offB,y);c.globalCompositeOperation='source-over'});
-  for(let i=0;i<5;i++){let y=Math.floor(r()*H),h2=Math.floor(r()*15)+3,shift=Math.floor(r()*40)-20;let strip=c.getImageData(0,y,W,h2);c.putImageData(strip,shift,y)}
-  let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*30;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0);
+  lines.forEach((line,i)=>{
+    let y=startY+i*fontSize*1.2;
+    c.globalCompositeOperation='lighter';
+    c.fillStyle='rgba(255,0,0,0.7)';c.fillText(line,W/2+offR,y);
+    c.fillStyle='rgba(0,255,0,0.7)';c.fillText(line,W/2,y);
+    c.fillStyle='rgba(0,100,255,0.7)';c.fillText(line,W/2+offB,y);
+    c.globalCompositeOperation='source-over';
+  });
+  // Random horizontal glitch tears
+  for(let i=0;i<5;i++){
+    let y=Math.floor(r()*H),h2=Math.floor(r()*15)+3;
+    let shift=Math.floor(r()*40)-20;
+    let strip=c.getImageData(0,y,W,h2);
+    c.putImageData(strip,shift,y);
+  }
+  // Noise
+  let id=c.getImageData(0,0,W,H),d=id.data;
+  for(let i=0;i<d.length;i+=4){let n=(r()-.5)*30;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
+  c.putImageData(id,0,0);
 }
 
+// Create a card from chaos engine result
 function createChaosCard(collision, words, mood){
   let d=document.createElement('div');
   d.className='cd user-card';
   d.dataset.category=mood;
+
   let promptSeed = words.join(' ') + collision;
   let ix = Math.floor(Math.random()*10000);
   let seed = hs(promptSeed)+ix*777;
   let cv=document.createElement('canvas');d.appendChild(cv);
+
+  // Pick visual style randomly: 0=canvas art, 1=meme, 2=glitch
   let visualStyle = Math.floor(Math.random()*3);
-  d.innerHTML+='<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">'+mood+' \u00B7 '+words.join(' + ')+'</div><div class="ct">'+collision+'</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class="ca"><button class="ab lkb" data-id="u'+ix+'">\u2764\uFE0F</button><div class="ac lkc">0</div><button class="ab svb" data-id="u'+ix+'">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="u'+ix+'" data-p="'+encodeURIComponent(collision)+'">\u2197</button><div class="ac">Share</div></div></div>';
+
+  d.innerHTML+=`<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${mood} \u00B7 ${words.join(' + ')}</div><div class="ct">${collision}</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class="ca"><button class="ab lkb" data-id="u${ix}">\u2764\uFE0F</button><div class="ac lkc">0</div><button class="ab svb" data-id="u${ix}" data-p="${encodeURIComponent(collision)}">\u2197</button><div class="ac">Share</div></div></div>`;
+
   requestAnimationFrame(()=>{
+    let c2=d.querySelector('canvas');
+    if(!c2)return;
+    if(visuimationFrame(()=>{
     let c2=d.querySelector('canvas');
     if(!c2)return;
     if(visualStyle===0) ga(c2,promptSeed,ix);
@@ -303,6 +496,7 @@ function createChaosCard(collision, words, mood){
   });
   return d
 }
+
 function gf(){return ac==='all'?sf:sf.filter(p=>p.c===ac)}
 function lb2(){if(il)return;il=true;let fd=document.getElementById('fd'),its=gf(),s=lc,e=Math.min(s+BS,its.length);
 if(s>=its.length){sf=sh(P);lc=0;il=false;return lb2()}
@@ -324,9 +518,10 @@ document.addEventListener('click',e=>{
   try{sc.toBlob(b=>{let u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`rotfeed-${Date.now()}.png`;a.click();URL.revokeObjectURL(u)},'image/png');st2('\uD83D\uDCBE Card saved!')}catch(e2){st2('Long press to save')}return}
   let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': "'+pr+'"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st2('\uD83D\uDCCB Link copied!'));return}
   let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
+
 document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);lb2();lb2();st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
 
-// Portal logic
+// ============ PORTAL LOGIC ============
 document.getElementById('pm').addEventListener('click',e=>{
   let m=e.target.closest('.portal-mood');if(!m)return;
   document.querySelectorAll('.portal-mood').forEach(p=>p.classList.remove('sel'));
@@ -391,7 +586,7 @@ const CURSED_TEMPLATES={
     "BREAKING: {1} declares war on {2} armed only with {3}",
     "{1} punching {2} into next week while screaming about {3}",
     "a {1} so mad about {2} it spontaneously became {3}",
-    "{1} vs {2} in a cage match refereed by {3}",
+    "{1} vs {2} in a cage match referee'd by {3}",
     "the AUDACITY of {1} disrespecting {2} in front of {3}",
     "{1} didn't just choose violence, {1} chose {2} and {3} violence",
     "WANTED: {1} for crimes against {2} involving {3}"
@@ -428,22 +623,45 @@ function demoCollide(words,mood){
 }
 
 async function apiCollide(words,mood){
-  return fetch(WORKER_URL+'/api/collide',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({words,mood})
-  }).then(r=>{if(!r.ok)throw new Error('API error');return r.json()}).catch(()=>demoCollide(words,mood));
+  try{
+    let res=await fetch(WORKER_URL+'/api/collide',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({words,mood})
+    });
+    if(!res.ok) throw new Error('API error');
+    return await res.json();
+  }catch(e){
+    return demoCollide(words,mood);
+  }
 }
+
 async function doCollide(){
   if(isColliding)return;
-  let w1v=document.getElementById('w1').value.trim();
-  let w2v=document.getElementById('w2').value.trim();
-  let w3v=document.getElementById('w3').value.trim();
-  if(!w1v||!w2v||!w3v){st2('\u26A0\uFE0F drop all 3 words');return;}
+  let w1=document.getElementById('w1').value.trim();
+  let w2=document.getElementById('w2').value.trim();
+  let w3=document.getElementById('w3').value.trim();
+
+  if(!w1||!w2||!w3){
+    st2('\u26A0\uFE0F drop all 3 words');
+    // Shake empty inputs
+    [['w1',w1],['w2',w2],['w3',w3]].forEach(([id,val])=>{
+      if(!val){
+        let el=document.getElementById(id);
+        el.style.borderColor='var(--a)';
+        el.style.animation='shake .4s';
+        setTimeout(()=>{el.style.borderColor='';el.style.animation=''},400);
+      }
+    });
+    return;
+  }
+
   isColliding=true;
-  let words=[w1v,w2v,w3v];
+  let words=[w1,w2,w3];
   let btn=document.getElementById('collideBtn');
   btn.disabled=true;
+
+  // Close portal, show chaos overlay
   closePortal();
   let ov=document.getElementById('chaosOv');
   let cw=document.getElementById('chaosWords');
@@ -451,49 +669,87 @@ async function doCollide(){
   let cs=document.getElementById('chaosStitch');
   cw.innerHTML='';cf.innerHTML='';cs.textContent='';cs.classList.remove('vis');
   ov.classList.add('active');
-  words.forEach(w=>{let span=document.createElement('span');span.className='chaos-word';span.textContent=w;cw.appendChild(span);});
-  let p;
-  if(WORKER_URL){p=apiCollide(words,selectedMood);}
-  else{p=new Promise(r=>setTimeout(()=>r(demoCollide(words,selectedMood)),1500));}
-  p.then(result=>{
-    let div=document.createElement('div');
+
+  // Show words popping in
+  words.forEach(w=>{
+    let span=document.createElement('span');
+    span.className='chaos-word';span.textContent=w;
+    cw.appendChild(span);
+  });
+
+  // Fire the collide
+  let result;
+  if(WORKER_URL){
+    result=await apiCollide(words,selectedMood);
+  } else {
+    // Demo mode with fake delay
+    await new Promise(r=>setTimeout(r,1500));
+    result=demoCollide(words,selectedMood);
+  }
+
+  // Show the collision sentence
+  let div=document.createElement('div');
   div.className='chaos-frag';div.textContent=result.collision;
   cf.appendChild(div);
   await new Promise(r=>setTimeout(r,300));
   div.classList.add('vis');
 
+  // Show complete
   await new Promise(r=>setTimeout(r,600));
   cs.textContent='\u26A1 COLLISION COMPLETE';
   cs.classList.add('vis');
-    setTimeout(()=>{
-      ov.classList.remove('active');
-      let card=createChaosCard(result.collision,words,selectedMood);
-      let fd=document.getElementById('fd');
-      fd.prepend(card);
-      setTimeout(()=>card.classList.add('v'),50);
-      window.scrollTo({top:0,behavior:'smooth'});
-      document.getElementById('w1').value='';
-      document.getElementById('w2').value='';
-      document.getElementById('w3').value='';
-      st2('\uD83E\uDDEA your cursed creation has entered the feed');
-      btn.disabled=false;
-      isColliding=false;
-    },delay+1400);
-  });
+
+  // Vibrate on mobile
+  if(navigator.vibrate)navigator.vibrate([50,50,100]);
+
+  await new Promise(r=>setTimeout(r,1000));
+
+  // Hide overlay
+  ov.classList.remove('active');
+
+  // Create card and prepend to feed
+  let card=createChaosCard(result.collision,words,selectedMood);
+  let fd=document.getElementById('fd');
+  fd.prepend(card);
+  setTimeout(()=>card.classList.add('v'),50);
+
+  // Scroll to top to see the card
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Clear inputs
+  document.getElementById('w1').value='';
+  document.getElementById('w2').value='';
+  document.getElementById('w3').value='';
+
+  // Toast
+  st2('\uD83E\uDDEA your cursed creation has entered the feed');
+
+  btn.disabled=false;
+  isColliding=false;
 }
 
-// Keyboard shortcuts
+// Shake animation via keyframes (injected)
+(function(){
+  let s=document.createElement('style');
+  s.textContent='@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}';
+  document.head.appendChild(s);
+})();
+
+// ============ KEYBOARD SHORTCUTS ============
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&portalOpen)closePortal();
+  // Enter in last input triggers collide
   if(e.key==='Enter'&&portalOpen&&!isColliding){
     let active=document.activeElement;
     if(active&&active.closest('.portal-words'))doCollide();
   }
 });
 
+// PWA Service Worker registration
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+// Haptic feedback on like (mobile)
 document.addEventListener('click',e=>{if(e.target.closest('.lkb')&&navigator.vibrate)navigator.vibrate(10)});
 lb2();lb2();
 </script>
 </body>
-  </html>
+</html>

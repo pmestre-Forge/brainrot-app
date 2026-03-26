@@ -375,11 +375,50 @@ function cc(it,ix){
   let ra=gr(ix),lks=fl(ix),vw=lks*(3+Math.floor(Math.random()*5));
   let cv=document.createElement('canvas');d.appendChild(cv);
   d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class="ca"><button class="ab lkb" data-id="${ix}">\u2764\uFE0F</button><div class="ac lkc">${fn(lks)}</div><button class="ab svb" data-id="${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="${ix}" data-p="${encodeURIComponent(it.p)}">\u2197</button><div class="ac">Share</div></div></div>`;
-  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2)ga(c2,it.p,ix)});
+  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2){let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;if(roll<0.35)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.6)ga(c2,it.p,ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}});
   return d
 }
 
 // Meme-style canvas: big bold text on vivid gradient
+function _memeText(c,text,W,H){
+  c.textAlign='center';c.textBaseline='middle';
+  let words=text.toUpperCase().split(' ');
+  let fontSize=Math.min(72,Math.floor(2400/(text.length+1)));
+  if(fontSize<28)fontSize=28;
+  c.font=`900 ${fontSize}px Impact,"Space Grotesk",sans-serif`;
+  let lines=[],ln='',maxW=W-60;
+  for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
+  if(ln)lines.push(ln);
+  let totalH=lines.length*fontSize*1.15;
+  let startY=H/2-totalH/2+fontSize/2;
+  lines.forEach((line,i)=>{
+    let y=startY+i*fontSize*1.15;
+    c.strokeStyle='rgba(0,0,0,0.95)';c.lineWidth=fontSize/4;c.lineJoin='round';
+    c.strokeText(line,W/2,y);
+    c.fillStyle='#fff';c.fillText(line,W/2,y);
+  });
+}
+function imgMemeRender(cv,text,mood,seed){
+  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let r=sr(seed);
+  let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
+  let cols=moodColors[mood]||moodColors.chaotic;
+  let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  _memeText(c,text,W,H);
+  let img=new Image();img.crossOrigin='anonymous';
+  img.onload=function(){
+    c.drawImage(img,0,0,W,H);
+    let ov=c.createLinearGradient(0,0,0,H);ov.addColorStop(0,'rgba(0,0,0,0.15)');ov.addColorStop(0.3,'rgba(0,0,0,0.05)');ov.addColorStop(0.7,'rgba(0,0,0,0.05)');ov.addColorStop(1,'rgba(0,0,0,0.15)');
+    c.fillStyle=ov;c.fillRect(0,0,W,H);
+    let vg=c.createRadialGradient(W/2,H/2,W*0.3,W/2,H/2,W*0.8);vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(0,0,0,0.4)');
+    c.fillStyle=vg;c.fillRect(0,0,W,H);
+    _memeText(c,text,W,H);
+    try{let id=c.getImageData(0,0,W,H),d=id.data;let r2=sr(seed+1);for(let i=0;i<d.length;i+=4){let n=(r2()-.5)*12;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0)}catch(e){}
+  };
+  img.onerror=function(){};
+  img.src='https://picsum.photos/seed/rf'+Math.abs(seed%9999)+'/512/512';
+}
 function memeRender(cv,text,mood,seed){
   let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
   let r=sr(seed);
@@ -397,24 +436,7 @@ function memeRender(cv,text,mood,seed){
     c.restore();
   }
   // Impact-style text
-  c.textAlign='center';c.textBaseline='middle';
-  let words=text.toUpperCase().split(' ');
-  let fontSize=Math.min(72,Math.floor(2400/(text.length+1)));
-  if(fontSize<28)fontSize=28;
-  c.font=`900 ${fontSize}px "Space Grotesk",Impact,sans-serif`;
-  // Word wrap
-  let lines=[],ln='',maxW=W-60;
-  for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
-  if(ln)lines.push(ln);
-  let totalH=lines.length*fontSize*1.15;
-  let startY=H/2-totalH/2+fontSize/2;
-  // Text shadow + stroke
-  lines.forEach((line,i)=>{
-    let y=startY+i*fontSize*1.15;
-    c.strokeStyle='rgba(0,0,0,0.9)';c.lineWidth=fontSize/5;c.lineJoin='round';
-    c.strokeText(line,W/2,y);
-    c.fillStyle='#fff';c.fillText(line,W/2,y);
-  });
+  _memeText(c,text,W,H);
   // Noise grain
   let id=c.getImageData(0,0,W,H),d=id.data;
   for(let i=0;i<d.length;i+=4){let n=(r()-.5)*20;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
@@ -487,8 +509,11 @@ function createChaosCard(collision, words, mood){
   requestAnimationFrame(()=>{
     let c2=d.querySelector('canvas');
     if(!c2)return;
-    if(visualStyle===0) ga(c2,promptSeed,ix);
-    else if(visualStyle===1) memeRender(c2,collision,mood,seed);
+  let roll=Math.random();
+  if(roll<0.4) imgMemeRender(c2,collision,mood,seed);
+  else if(roll<0.6) ga(c2,promptSeed,ix);
+  else if(roll<0.8) glitchRender(c2,collision,mood,seed);
+  else memeRender(c2,collision,mood,seed);
     else glitchRender(c2,collision,mood,seed);
   });
   return d

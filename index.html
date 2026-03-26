@@ -334,7 +334,7 @@ function cc(it,ix){
   let ra=gr(ix),lks=fl(ix),vw=lks*(3+Math.floor(Math.random()*5));
   let cv=document.createElement('canvas');d.appendChild(cv);
   d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class="ca"><button class="ab lkb" data-id="${ix}">\u2764\uFE0F</button><div class="ac lkc">${fn(lks)}</div><button class="ab svb" data-id="${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="${ix}" data-p="${encodeURIComponent(it.p)}">\u2197</button><div class="ac">Share</div></div></div>`;
-  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2&&window._lazyObs){window._lazyObs.observe(d)}else if(c2){let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;if(roll<0.35)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.6)ga(c2,it.p,ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}});
+  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2){if(window._lazyObs){window._lazyObs.observe(d)}else{let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;if(roll<0.35)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.6)ga(c2,it.p,ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}}});
   return d
 }
 

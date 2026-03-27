@@ -50,11 +50,14 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
 .cc{font-size:10px;color:var(--a);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
 .ct{font-size:18px;color:rgba(255,255,255,.95);line-height:1.35;font-weight:700;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .cm{display:flex;gap:10px;margin-top:8px;font-size:11px;color:var(--tdd)}
+.ca{display:flex;flex-direction:column;gap:10px;align-items:center}
 .ab{background:rgba(255,255,255,.1);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);-webkit-tap-highlight-color:transparent}
 .ab:hover{background:rgba(255,255,255,.2);transform:scale(1.1)}
 .ab.lk{background:var(--a);animation:lp .4s cubic-bezier(.175,.885,.32,1.275)}
 .ac{font-size:10px;color:var(--tdd);text-align:center;margin-top:-6px}
 @keyframes lp{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+.dth{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:80px;z-index:10;pointer-events:none;opacity:0;filter:drop-shadow(0 0 20px rgba(255,45,85,.5))}
+.dth.an{animation:hb .8s cubic-bezier(.175,.885,.32,1.275) forwards}
 @keyframes hb{0%{transform:translate(-50%,-50%) scale(0);opacity:0}15%{transform:translate(-50%,-50%) scale(1.3);opacity:1}80%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(1.2);opacity:0}}
 .wm{position:absolute;top:12px;right:12px;font-size:10px;color:rgba(255,255,255,.15);font-weight:700;letter-spacing:.5px;pointer-events:none;z-index:2}
 .ld{text-align:center;padding:40px;color:var(--tdd);font-size:13px}
@@ -127,6 +130,19 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
 }
 .portal-words input::placeholder{color:rgba(255,255,255,.2);font-weight:400;font-size:13px}
 .portal-words input:focus{border-color:var(--a);box-shadow:0 0 16px rgba(255,45,85,.15)}
+
+.portal-moods{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.portal-mood{
+  padding:6px 14px;border-radius:100px;
+  font-size:11px;font-weight:600;cursor:pointer;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);color:var(--td);
+  transition:all .2s;-webkit-tap-highlight-color:transparent
+}
+.portal-mood:hover,.portal-mood.sel{
+  background:var(--a);border-color:var(--a);color:#fff;
+  box-shadow:0 0 12px rgba(255,45,85,.3)
+}
 
 .portal-collide{
   display:block;width:100%;padding:16px;
@@ -244,12 +260,27 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
       <input type="text" id="w2" placeholder="word 2" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
       <input type="text" id="w3" placeholder="word 3" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
     </div>
-    <button class="portal-collide" id="collideBtn" onclick="doCollide()"><span class="btn-glow"></span>&#x26A1; COLLIDE</button>
-    <button class="portal-close" onclick="closePortal()">&#x2715; close portal</button>
+    <div class="portal-moods" id="pm">
+      <div class="portal-mood sel" data-m="unhinged">&#x1F92F; unhinged</div>
+      <div class="portal-mood" data-m="cursed">&#x1F480; cursed</div>
+      <div class="portal-mood" data-m="dreamy">&#x2728; dreamy</div>
+      <div class="portal-mood" data-m="angry">&#x1F525; angry</div>
+      <div class="portal-mood" data-m="cosmic">&#x1F30C; cosmic</div>
+      <div class="portal-mood" data-m="chaotic">&#x1F300; chaotic</div>
+    </div>
+    <button class="portal-collide" id="collideBtn" onclick="doCollide()">
+      <span class="btn-glow"></span>
+      &#x1F4A5; COLLIDE
+    </button>
+    <button class="portal-close" onclick="closePortal()">&#x2193; back to feed</button>
   </div>
 </div>
 
-<button class="create-fab" id="cfab" onclick="openPortal()"><span class="fab-pulse"></span>+</button>
+<!-- CREATE FAB -->
+<button class="create-fab" id="cfab" onclick="openPortal()">
+  <div class="fab-pulse"></div>
+  &#x1F9EA;
+</button>
 
 <!-- CHAOS ANIMATION OVERLAY -->
 <div class="chaos-overlay" id="chaosOv">
@@ -281,7 +312,18 @@ let sf=sh(P);
 function hs(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return Math.abs(h)}
 function sr(s){let x=s;return function(){x=(x*16807)%2147483647;return(x-1)/2147483646}}
 
-
+function ga(cv,pr,ix){
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
+  let sd=hs(pr)+ix*777,r=sr(sd),st=Math.floor(r()*5),h1=Math.floor(r()*360),h2=(h1+40+Math.floor(r()*40))%360;
+  let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,`hsl(${h1},50%,10%)`);g.addColorStop(1,`hsl(${h2},50%,5%)`);c.fillStyle=g;c.fillRect(0,0,W,H);
+  if(st===0){for(let i=0;i<40;i++){let x=r()*W,y=r()*H,rd=r()*150+30,g2=c.createRadialGradient(x,y,0,x,y,rd);g2.addColorStop(0,`hsla(${(h1+r()*120)%360},80%,50%,${.1+r()*.15})`);g2.addColorStop(1,'transparent');c.fillStyle=g2;c.fillRect(0,0,W,H)}}
+  else if(st===1){for(let i=0;i<200;i++){let x=r()*W,y=r()*H;c.beginPath();c.moveTo(x,y);c.strokeStyle=`hsla(${(h1+r()*80)%360},70%,55%,${.1+r()*.2})`;c.lineWidth=.5+r()*2;for(let s=0;s<50;s++){let an=(Math.sin(x*.005+sd*.01)+Math.cos(y*.005))*Math.PI;x+=Math.cos(an)*4;y+=Math.sin(an)*4;if(x<0||x>W||y<0||y>H)break;c.lineTo(x,y)}c.stroke()}}
+  else if(st===2){for(let i=0;i<60;i++){c.fillStyle=`hsla(${(h1+r()*90)%360},${50+r()*50}%,${30+r()*30}%,${.1+r()*.3})`;c.fillRect(r()*W,r()*H,r()*200+10,r()*30+2)}for(let y=0;y<H;y+=3){c.fillStyle=`rgba(0,0,0,${.1+r()*.1})`;c.fillRect(0,y,W,1)}}
+  else if(st===3){let pts=[];for(let i=0;i<80;i++)pts.push({x:r()*W,y:r()*H,r:r()*3+1});c.strokeStyle=`hsla(${h1},50%,60%,.1)`;c.lineWidth=.5;for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){if(Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y)<80){c.beginPath();c.moveTo(pts[i].x,pts[i].y);c.lineTo(pts[j].x,pts[j].y);c.stroke()}}pts.forEach(p=>{let g3=c.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);g3.addColorStop(0,`hsla(${h2},80%,70%,.8)`);g3.addColorStop(1,'transparent');c.fillStyle=g3;c.beginPath();c.arc(p.x,p.y,p.r*4,0,Math.PI*2);c.fill()})}
+  else{for(let i=0;i<15;i++){let cx=r()*W,cy=r()*H;c.fillStyle=`hsla(${(h1+r()*100)%360},60%,45%,${.08+r()*.12})`;c.beginPath();for(let s=0;s<=60;s++){let an=(s/60)*Math.PI*2,br=50+r()*100,nr=br+Math.sin(an*3+sd)*30;let px=cx+Math.cos(an)*nr,py=cy+Math.sin(an)*nr;s===0?c.moveTo(px,py):c.lineTo(px,py)}c.closePath();c.fill()}}
+  let v=c.createRadialGradient(W/2,H/2,W*.3,W/2,H/2,W*.8);v.addColorStop(0,'transparent');v.addColorStop(1,'rgba(0,0,0,.5)');c.fillStyle=v;c.fillRect(0,0,W,H);
+  let id=c.getImageData(0,0,W,H),d=id.data;for(let i=0;i<d.length;i+=4){let n=(r()-.5)*15;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0)
+}
 
 function gr(i){let rl=(hs(P[i%P.length].p)%100);return rl<3?'legendary':rl<12?'epic':rl<30?'rare':'common'}
 function fl(i){let b=hs(P[i%P.length].p),ra=gr(i),m=ra==='legendary'?50:ra==='epic'?15:ra==='rare'?5:1;return Math.floor((b%800)*m+10)}
@@ -291,8 +333,8 @@ function cc(it,ix){
   let d=document.createElement('div');d.className='cd';d.dataset.item=JSON.stringify(it);d.dataset.index=''+ix;d.dataset.category=it.c;d.dataset.index=ix;
   let ra=gr(ix),lks=fl(ix),vw=lks*(3+Math.floor(Math.random()*5));
   let cv=document.createElement('canvas');d.appendChild(cv);
-  d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div></div>`;
-  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2){if(window._lazyObs){window._lazyObs.observe(d)}else{sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;imgMemeRender(c2,it.p,it.c,sd)}}});
+  d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class="ca"><button class="ab lkb" data-id="${ix}">\u2764\uFE0F</button><div class="ac lkc">${fn(lks)}</div><button class="ab svb" data-id="${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="${ix}" data-p="${encodeURIComponent(it.p)}">\u2197</button><div class="ac">Share</div></div></div>`;
+  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2){if(window._lazyObs){window._lazyObs.observe(d)}else{let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p,ix);else if(roll<0.85)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}}});
   return d
 }
 
@@ -334,10 +376,76 @@ function imgMemeRender(cv,text,mood,seed){
   img.onerror=function(){};
   img.src='https://picsum.photos/seed/rf'+Math.abs(seed%9999)+'/512/512';
 }
-
+function memeRender(cv,text,mood,seed){
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
+  let r=sr(seed);
+  let moodColors={unhinged:['#ff2d55','#ff6b00','#ff0080'],cursed:['#1a0030','#4a0080','#8b00ff'],dreamy:['#ff9a9e','#fad0c4','#ffecd2'],angry:['#ff0000','#990000','#ff4444'],cosmic:['#0f0c29','#302b63','#24243e'],chaotic:['#00ff87','#60efff','#ff00ff']};
+  let cols=moodColors[mood]||moodColors.chaotic;
+  let g=c.createLinearGradient(r()*W,0,r()*W,H);g.addColorStop(0,cols[0]);g.addColorStop(0.5,cols[1]);g.addColorStop(1,cols[2]||cols[0]);
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  for(let i=0;i<12;i++){
+    let x=r()*W,y=r()*H,sz=Math.abs(r()*180+40);
+    c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
+    c.fillStyle='rgba('+(r()*255|0)+','+(r()*255|0)+','+(r()*255|0)+','+(r()*0.12+0.03)+')';
+    c.fill();
+  }
+  for(let i=0;i<6;i++){
+    c.beginPath();c.moveTo(r()*W,r()*H);
+    c.bezierCurveTo(r()*W,r()*H,r()*W,r()*H,r()*W,r()*H);
+    c.strokeStyle='rgba(255,255,255,'+(r()*0.15+0.05)+')';
+    c.lineWidth=r()*8+2;c.stroke();
+  }
+  for(let i=0;i<20;i++){
+    let x=r()*W,y=r()*H,sz=Math.abs(r()*4+1);
+    c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
+    c.fillStyle='rgba(255,255,255,'+(r()*0.4+0.1)+')';c.fill();
+  }
+  let ng=c.createRadialGradient(W*r(),H*r(),0,W/2,H/2,W*0.8);
+  ng.addColorStop(0,'rgba(255,255,255,0.08)');ng.addColorStop(1,'transparent');
+  c.fillStyle=ng;c.fillRect(0,0,W,H);
+}
 
 // Glitch-style canvas: scanlines, RGB split, fragmented text
-
+function glitchRender(cv,text,mood,seed){
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
+  let r=sr(seed);
+  let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
+  let cols=moodColors[mood]||moodColors.chaotic;
+  let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  for(let i=0;i<8;i++){
+    let x=r()*W,y=r()*H,sz=Math.abs(r()*200+50);
+    c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
+    c.fillStyle='rgba('+(r()*255|0)+','+(r()*255|0)+','+(r()*255|0)+','+(r()*0.2+0.05)+')';
+    c.fill();
+  }
+  try{
+    let id=c.getImageData(0,0,W,H),d=id.data;
+    let sliceH=4+Math.floor(r()*12);
+    for(let y=0;y<H;y+=sliceH){
+      let shift=Math.floor((r()-0.5)*30);
+      let h=Math.min(sliceH,H-y);
+      if(Math.abs(shift)>2){
+        let slice=c.getImageData(0,y,W,h);
+        c.putImageData(slice,shift,y);
+      }
+    }
+    id=c.getImageData(0,0,W,H);d=id.data;
+    let r2=sr(seed+99);
+    for(let i=0;i<d.length;i+=4){
+      if(r2()<0.03){d[i]=255;d[i+1]=0;d[i+2]=0;d[i+3]=180;}
+      else if(r2()<0.03){d[i]=0;d[i+1]=255;d[i+2]=0;d[i+3]=180;}
+    }
+    for(let y=0;y<H;y++){
+      if(r2()<0.08){
+        for(let x=0;x<W;x++){let p=(y*W+x)*4;d[p]=d[p]+50;d[p+1]=d[p+1]-20;d[p+2]=d[p+2]+30;}
+      }
+    }
+    c.putImageData(id,0,0);
+    c.fillStyle='rgba(0,0,0,0.02)';
+    for(let i=0;i<H;i+=2){c.fillRect(0,i,W,1);}
+  }catch(e){}
+}
 
 // Create a card from chaos engine result
 function createChaosCard(collision, words, mood){
@@ -353,12 +461,16 @@ function createChaosCard(collision, words, mood){
   // Pick visual style randomly: 0=canvas art, 1=meme, 2=glitch
   let visualStyle = Math.floor(Math.random()*3);
 
-  d.innerHTML+=`<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${mood} \u00B7 ${words.join(' + ')}</div><div class="ct">${collision}</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div></div>`;
+  d.innerHTML+=`<div class="rb rl">\u26A1 YOUR CREATION</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${mood} \u00B7 ${words.join(' + ')}</div><div class="ct">${collision}</div><div class="cm"><span>\uD83D\uDC41 0</span><span>\uD83D\uDD50 just now</span></div></div><div class="ca"><button class="ab lkb" data-id="u${ix}">\u2764\uFE0F</button><div class="ac lkc">0</div><button class="ab svb" data-id="u${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="u${ix}" data-p="${encodeURIComponent(collision)}">\u2197</button><div class="ac">Share</div></div></div>`;
 
   requestAnimationFrame(()=>{
     let c2=d.querySelector('canvas');
     if(!c2)return;
-  imgMemeRender(c2,collision,mood,seed);
+  let roll=Math.random();
+  if(roll<0.5) imgMemeRender(c2,collision,mood,seed);
+  else if(roll<0.7) ga(c2,promptSeed,ix);
+  else if(roll<0.85) glitchRender(c2,collision,mood,seed);
+  else memeRender(c2,collision,mood,seed);
   });
   return d
 }
@@ -372,8 +484,28 @@ lc=e;il=false}
 new IntersectionObserver(e=>{if(e[0].isIntersecting){clearTimeout(window._lb2t);window._lb2t=setTimeout(lb2,150)}},{rootMargin:'600px'}).observe(document.getElementById('ld'));
 window.addEventListener('scroll',()=>{let s=window.scrollY,t=document.body.scrollHeight-window.innerHeight;document.getElementById('sp').style.width=Math.min((s/t)*100,100)+'%'});
 setInterval(()=>{let el=document.getElementById('oc'),c=parseInt(el.textContent.replace(/,/g,''));el.textContent=Math.max(2000,c+Math.floor(Math.random()*30)-12).toLocaleString()},3000);
-document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._rQ=[];window._rN=0;function _drQ(){if(window._rN>0||window._rQ.length===0)return;window._rN=1;let j=window._rQ.shift();setTimeout(()=>{try{j()}catch(e){}window._rN=0;_drQ()},150)}window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';window._rQ.push(()=>{let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;imgMemeRender(c2,it.p,it.c,sd)});_drQ();window._lazyObs.unobserve(d)}}})},{rootMargin:'200px'});
-lb2();setTimeout(lb2,200);
+
+function st2(m){let t=document.getElementById('to');t.textContent=m;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2000)}
+
+document.addEventListener('click',e=>{
+  let lb3=e.target.closest('.lkb');if(lb3){e.stopPropagation();let id=lb3.dataset.id;if(lk.has(id)){lk.delete(id);lb3.classList.remove('lk')}else{lk.add(id);lb3.classList.add('lk')}return}
+  let sv=e.target.closest('.svb');if(sv){e.stopPropagation();let cd=sv.closest('.cd'),cv=cd?.querySelector('canvas');if(!cv)return;
+  let sc=document.createElement('canvas');sc.width=1080;sc.height=1080;let cx=sc.getContext('2d');cx.drawImage(cv,0,0,1080,1080);
+  let gd=cx.createLinearGradient(0,400,0,1080);gd.addColorStop(0,'transparent');gd.addColorStop(.5,'rgba(0,0,0,.6)');gd.addColorStop(1,'rgba(0,0,0,.95)');cx.fillStyle=gd;cx.fillRect(0,0,1080,1080);
+  let pr=cd.querySelector('.ct')?.textContent||'';cx.fillStyle='rgba(255,255,255,.4)';cx.font='700 20px Space Grotesk,sans-serif';cx.textAlign='right';cx.fillText('rotfeed',1050,40);cx.textAlign='left';cx.fillStyle='#ff2d55';cx.font='700 24px Space Grotesk,sans-serif';cx.fillText((cd.querySelector('.cc')?.textContent||'').toUpperCase(),50,920);cx.fillStyle='#fff';cx.font='700 38px Space Grotesk,sans-serif';let w=pr.split(' '),ln='',y=960,mx=980;for(let wd of w){let ts=ln+wd+' ';if(cx.measureText(ts).width>mx&&ln){cx.fillText(ln.trim(),50,y);ln=wd+' ';y+=48}else ln=ts}if(ln)cx.fillText(ln.trim(),50,y);
+  try{sc.toBlob(b=>{let u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`rotfeed-${Date.now()}.png`;a.click();URL.revokeObjectURL(u)},'image/png');st2('\uD83D\uDCBE Card saved!')}catch(e2){st2('Long press to save')}return}
+  let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': "'+pr+'"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st2('\uD83D\uDCCB Link copied!'));return}
+  let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
+
+document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._rQ=[];window._rN=0;function _drQ(){if(window._rN>0||window._rQ.length===0)return;window._rN=1;let j=window._rQ.shift();setTimeout(()=>{try{j()}catch(e){}window._rN=0;_drQ()},150)}window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';window._rQ.push(()=>{let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p||'',ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)});_drQ();window._lazyObs.unobserve(d)}}})},{rootMargin:'200px'});
+lb2();setTimeout(lb2,200);st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
+
+// ============ PORTAL LOGIC ============
+document.getElementById('pm').addEventListener('click',e=>{
+  let m=e.target.closest('.portal-mood');if(!m)return;
+  document.querySelectorAll('.portal-mood').forEach(p=>p.classList.remove('sel'));
+  m.classList.add('sel');
+  selectedMood=m.dataset.m;
 });
 
 function openPortal(){
@@ -488,7 +620,10 @@ async function doCollide(){
   let w1=document.getElementById('w1').value.trim();
   let w2=document.getElementById('w2').value.trim();
   let w3=document.getElementById('w3').value.trim();
-  if(!w1||!w2||!w3){// Shake empty inputs
+
+  if(!w1||!w2||!w3){
+    st2('\u26A0\uFE0F drop all 3 words');
+    // Shake empty inputs
     [['w1',w1],['w2',w2],['w3',w3]].forEach(([id,val])=>{
       if(!val){
         let el=document.getElementById(id);
@@ -563,7 +698,12 @@ async function doCollide(){
   // Clear inputs
   document.getElementById('w1').value='';
   document.getElementById('w2').value='';
-  document.getElementById('w3').value='';btn.disabled=false;
+  document.getElementById('w3').value='';
+
+  // Toast
+  st2('\uD83E\uDDEA your cursed creation has entered the feed');
+
+  btn.disabled=false;
   isColliding=false;
 }
 
@@ -582,7 +722,13 @@ document.addEventListener('keydown',e=>{
     let active=document.activeElement;
     if(active&&active.closest('.portal-words'))doCollide();
   }
-});lb2();setTimeout(lb2,400);
+});
+
+// PWA Service Worker registration
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+// Haptic feedback on like (mobile)
+document.addEventListener('click',e=>{if(e.target.closest('.lkb')&&navigator.vibrate)navigator.vibrate(10)});
+lb2();setTimeout(lb2,400);
 </script>
 </body>
 </html>

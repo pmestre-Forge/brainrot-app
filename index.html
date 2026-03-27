@@ -7,7 +7,7 @@
 <meta property="og:title" content="rotfeed ÃÂ¢ÃÂÃÂ You've Been Warned">
 <meta property="og:description" content="AI-generated cursed images. Infinite scroll. You won't stop.">
 <meta name="description" content="AI-generated cursed images. Infinite scroll. You won't stop.">
-<meta name="theme-color" content="#050505"> x
+<meta name="theme-color" content="#050505">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="rotfeed">
@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
 .cats{position:fixed;top:52px;left:0;right:0;z-index:99;background:linear-gradient(180deg,rgba(5,5,5,.95),transparent);padding:0 0 16px;overflow:hidden}
 .cs{max-width:520px;margin:0 auto;display:flex;gap:8px;padding:0 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cs::-webkit-scrollbar{display:none}
-.cp{flex-shrink:0;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--td);white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.cp{flex-shrink:0;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:var(--td);white-space:nowrap;-webkit-tap-highlight-color:transparent;min-height:280px;contain:content}
 .cp:hover,.cp.on{background:var(--a);border-color:var(--a);color:#fff;box-shadow:0 0 16px rgba(255,45,85,.3)}
 .fd{max-width:520px;margin:0 auto;padding:100px 10px 40px;display:flex;flex-direction:column;gap:14px}
 .cd{background:var(--cb);border-radius:20px;overflow:hidden;position:relative;cursor:pointer;opacity:0;transform:translateY(30px);transition:opacity .5s,transform .5s cubic-bezier(.22,1,.36,1);-webkit-tap-highlight-color:transparent}
@@ -313,7 +313,7 @@ function hs(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);
 function sr(s){let x=s;return function(){x=(x*16807)%2147483647;return(x-1)/2147483646}}
 
 function ga(cv,pr,ix){
-  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
   let sd=hs(pr)+ix*777,r=sr(sd),st=Math.floor(r()*5),h1=Math.floor(r()*360),h2=(h1+40+Math.floor(r()*40))%360;
   let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,`hsl(${h1},50%,10%)`);g.addColorStop(1,`hsl(${h2},50%,5%)`);c.fillStyle=g;c.fillRect(0,0,W,H);
   if(st===0){for(let i=0;i<40;i++){let x=r()*W,y=r()*H,rd=r()*150+30,g2=c.createRadialGradient(x,y,0,x,y,rd);g2.addColorStop(0,`hsla(${(h1+r()*120)%360},80%,50%,${.1+r()*.15})`);g2.addColorStop(1,'transparent');c.fillStyle=g2;c.fillRect(0,0,W,H)}}
@@ -358,7 +358,7 @@ function _memeText(c,text,W,H){
   });
 }
 function imgMemeRender(cv,text,mood,seed){
-  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
   let r=sr(seed);
   let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
   let cols=moodColors[mood]||moodColors.chaotic;
@@ -377,7 +377,7 @@ function imgMemeRender(cv,text,mood,seed){
   img.src='https://picsum.photos/seed/rf'+Math.abs(seed%9999)+'/512/512';
 }
 function memeRender(cv,text,mood,seed){
-  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
   let r=sr(seed);
   let moodColors={unhinged:['#ff2d55','#ff6b00','#ff0080'],cursed:['#1a0030','#4a0080','#8b00ff'],dreamy:['#ff9a9e','#fad0c4','#ffecd2'],angry:['#ff0000','#990000','#ff4444'],cosmic:['#0f0c29','#302b63','#24243e'],chaotic:['#00ff87','#60efff','#ff00ff']};
   let cols=moodColors[mood]||moodColors.chaotic;
@@ -407,7 +407,7 @@ function memeRender(cv,text,mood,seed){
 
 // Glitch-style canvas: scanlines, RGB split, fragmented text
 function glitchRender(cv,text,mood,seed){
-  let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
+  let c=cv.getContext('2d'),W=256,H=256;cv.width=W;cv.height=H;
   let r=sr(seed);
   let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
   let cols=moodColors[mood]||moodColors.chaotic;
@@ -497,8 +497,8 @@ document.addEventListener('click',e=>{
   let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': "'+pr+'"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st2('\uD83D\uDCCB Link copied!'));return}
   let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
 
-document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._renderDelay=0;window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';window._renderDelay+=50;let _d=window._renderDelay;setTimeout(()=>{let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p||'',ix);else if(roll<0.85)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}window._lazyObs.unobserve(d)},_d);window._renderDelay=Math.max(0,window._renderDelay-25)}})},{rootMargin:'200px'});
-lb2();setTimeout(lb2,200);st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
+document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._rQ=[];window._rN=0;function _drQ(){while(window._rN<2&&window._rQ.length>0){window._rN++;let j=window._rQ.shift();requestAnimationFrame(()=>{try{j()}catch(e){}window._rN--;_drQ()})}}window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';window._rQ.push(()=>{let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p||'',ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)});_drQ();window._lazyObs.unobserve(d)}}})},{rootMargin:'200px'});
+lb2();setTimeout(lb2,400);st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
 
 // ============ PORTAL LOGIC ============
 document.getElementById('pm').addEventListener('click',e=>{

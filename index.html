@@ -384,7 +384,7 @@ function memeRender(cv,text,mood,seed){
   let g=c.createLinearGradient(r()*W,0,r()*W,H);g.addColorStop(0,cols[0]);g.addColorStop(0.5,cols[1]);g.addColorStop(1,cols[2]||cols[0]);
   c.fillStyle=g;c.fillRect(0,0,W,H);
   for(let i=0;i<12;i++){
-    let x=r()*W,y=r()*H,sz=r()*180+40;
+    let x=r()*W,y=r()*H,sz=Math.abs(r()*180+40);
     c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
     c.fillStyle='rgba('+(r()*255|0)+','+(r()*255|0)+','+(r()*255|0)+','+(r()*0.12+0.03)+')';
     c.fill();
@@ -396,7 +396,7 @@ function memeRender(cv,text,mood,seed){
     c.lineWidth=r()*8+2;c.stroke();
   }
   for(let i=0;i<20;i++){
-    let x=r()*W,y=r()*H,sz=r()*4+1;
+    let x=r()*W,y=r()*H,sz=Math.abs(r()*4+1);
     c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
     c.fillStyle='rgba(255,255,255,'+(r()*0.4+0.1)+')';c.fill();
   }
@@ -414,7 +414,7 @@ function glitchRender(cv,text,mood,seed){
   let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
   c.fillStyle=g;c.fillRect(0,0,W,H);
   for(let i=0;i<8;i++){
-    let x=r()*W,y=r()*H,sz=r()*200+50;
+    let x=r()*W,y=r()*H,sz=Math.abs(r()*200+50);
     c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
     c.fillStyle='rgba('+(r()*255|0)+','+(r()*255|0)+','+(r()*255|0)+','+(r()*0.2+0.05)+')';
     c.fill();

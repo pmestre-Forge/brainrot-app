@@ -498,7 +498,7 @@ document.addEventListener('click',e=>{
   let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
 
 document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._rQ=[];window._rN=0;function _drQ(){while(window._rN<2&&window._rQ.length>0){window._rN++;let j=window._rQ.shift();requestAnimationFrame(()=>{try{j()}catch(e){}window._rN--;_drQ()})}}window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';window._rQ.push(()=>{let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p||'',ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)});_drQ();window._lazyObs.unobserve(d)}}})},{rootMargin:'200px'});
-lb2();setTimeout(lb2,400);st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
+lb2();setTimeout(lb2,200);st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
 
 // ============ PORTAL LOGIC ============
 document.getElementById('pm').addEventListener('click',e=>{
@@ -728,7 +728,7 @@ document.addEventListener('keydown',e=>{
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 // Haptic feedback on like (mobile)
 document.addEventListener('click',e=>{if(e.target.closest('.lkb')&&navigator.vibrate)navigator.vibrate(10)});
-lb2();setTimeout(lb2,200);
+lb2();setTimeout(lb2,400);
 </script>
 </body>
 </html>

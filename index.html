@@ -243,7 +243,13 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
       <input type="text" id="w1" placeholder="word 1" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
       <input type="text" id="w2" placeholder="word 2" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
       <input type="text" id="w3" placeholder="word 3" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
-    </div></button>
+    </div>
+    <button class="portal-collide" id="collideBtn" onclick="doCollide()"><span class="btn-glow"></span>&#x26A1; COLLIDE</button>
+    <button class="portal-close" onclick="closePortal()">&#x2715; close portal</button>
+  </div>
+</div>
+
+<button class="create-fab" id="cfab" onclick="openPortal()"><span class="fab-pulse"></span>+</button>
 
 <!-- CHAOS ANIMATION OVERLAY -->
 <div class="chaos-overlay" id="chaosOv">
@@ -367,8 +373,7 @@ new IntersectionObserver(e=>{if(e[0].isIntersecting){clearTimeout(window._lb2t);
 window.addEventListener('scroll',()=>{let s=window.scrollY,t=document.body.scrollHeight-window.innerHeight;document.getElementById('sp').style.width=Math.min((s/t)*100,100)+'%'});
 setInterval(()=>{let el=document.getElementById('oc'),c=parseInt(el.textContent.replace(/,/g,''));el.textContent=Math.max(2000,c+Math.floor(Math.random()*30)-12).toLocaleString()},3000);
 document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._rQ=[];window._rN=0;function _drQ(){if(window._rN>0||window._rQ.length===0)return;window._rN=1;let j=window._rQ.shift();setTimeout(()=>{try{j()}catch(e){}window._rN=0;_drQ()},150)}window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';window._rQ.push(()=>{let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;imgMemeRender(c2,it.p,it.c,sd)});_drQ();window._lazyObs.unobserve(d)}}})},{rootMargin:'200px'});
-lb2();setTimeout(lb2,200);// ============ PORTAL LOGIC ============m.classList.add('sel');
-  selectedMood=m.dataset.m;
+lb2();setTimeout(lb2,200);
 });
 
 function openPortal(){
@@ -482,7 +487,8 @@ async function doCollide(){
   if(isColliding)return;
   let w1=document.getElementById('w1').value.trim();
   let w2=document.getElementById('w2').value.trim();
-  let w3=document.getElementById('w3').value.trim();// Shake empty inputs
+  let w3=document.getElementById('w3').value.trim();
+  if(!w1||!w2||!w3){// Shake empty inputs
     [['w1',w1],['w2',w2],['w3',w3]].forEach(([id,val])=>{
       if(!val){
         let el=document.getElementById(id);

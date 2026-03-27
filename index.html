@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;
 .cb{position:absolute;bottom:0;left:0;right:0;padding:60px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.95));display:flex;justify-content:space-between;align-items:flex-end}
 .ci{flex:1;min-width:0}
 .cc{font-size:10px;color:var(--a);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
-.ct{font-size:16px;color:rgba(255,255,255,.95);line-height:1.35;font-weight:600;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.ct{font-size:18px;color:rgba(255,255,255,.95);line-height:1.35;font-weight:700;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .cm{display:flex;gap:10px;margin-top:8px;font-size:11px;color:var(--tdd)}
 .ca{display:flex;flex-direction:column;gap:10px;align-items:center}
 .ab{background:rgba(255,255,255,.1);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);-webkit-tap-highlight-color:transparent}
@@ -334,7 +334,7 @@ function cc(it,ix){
   let ra=gr(ix),lks=fl(ix),vw=lks*(3+Math.floor(Math.random()*5));
   let cv=document.createElement('canvas');d.appendChild(cv);
   d.innerHTML+=`<div class="rb r${ra[0]}">${ra==='common'?'':ra}</div><div class="wm">rotfeed</div><div class="dth">\u2764\uFE0F</div><div class="cb"><div class="ci"><div class="cc">${it.c}</div><div class="ct">${it.p}</div><div class="cm"><span>\uD83D\uDC41 ${fn(vw)}</span><span>\uD83D\uDD50 ${Math.floor(Math.random()*23)+1}h ago</span></div></div><div class="ca"><button class="ab lkb" data-id="${ix}">\u2764\uFE0F</button><div class="ac lkc">${fn(lks)}</div><button class="ab svb" data-id="${ix}">\uD83D\uDCBE</button><div class="ac">Save</div><button class="ab shb" data-id="${ix}" data-p="${encodeURIComponent(it.p)}">\u2197</button><div class="ac">Share</div></div></div>`;
-  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2){if(window._lazyObs){window._lazyObs.observe(d)}else{let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;if(roll<0.35)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.6)ga(c2,it.p,ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}}});
+  requestAnimationFrame(()=>{let c2=d.querySelector('canvas');if(c2){if(window._lazyObs){window._lazyObs.observe(d)}else{let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p)+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p,ix);else if(roll<0.85)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}}});
   return d
 }
 
@@ -364,16 +364,14 @@ function imgMemeRender(cv,text,mood,seed){
   let cols=moodColors[mood]||moodColors.chaotic;
   let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
   c.fillStyle=g;c.fillRect(0,0,W,H);
-  _memeText(c,text,W,H);
   let img=new Image();img.crossOrigin='anonymous';
   img.onload=function(){
     c.drawImage(img,0,0,W,H);
-    let ov=c.createLinearGradient(0,0,0,H);ov.addColorStop(0,'rgba(0,0,0,0.15)');ov.addColorStop(0.3,'rgba(0,0,0,0.05)');ov.addColorStop(0.7,'rgba(0,0,0,0.05)');ov.addColorStop(1,'rgba(0,0,0,0.15)');
+    let ov=c.createLinearGradient(0,0,0,H);ov.addColorStop(0,'rgba(0,0,0,0.1)');ov.addColorStop(0.5,'rgba(0,0,0,0)');ov.addColorStop(1,'rgba(0,0,0,0.3)');
     c.fillStyle=ov;c.fillRect(0,0,W,H);
-    let vg=c.createRadialGradient(W/2,H/2,W*0.3,W/2,H/2,W*0.8);vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(0,0,0,0.4)');
+    let vg=c.createRadialGradient(W/2,H/2,W*0.3,W/2,H/2,W*0.7);vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(0,0,0,0.25)');
     c.fillStyle=vg;c.fillRect(0,0,W,H);
-    _memeText(c,text,W,H);
-    try{let id=c.getImageData(0,0,W,H),d=id.data;let r2=sr(seed+1);for(let i=0;i<d.length;i+=4){let n=(r2()-.5)*12;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0)}catch(e){}
+    try{let id=c.getImageData(0,0,W,H),d=id.data;let r2=sr(seed+1);for(let i=0;i<d.length;i+=4){let n=(r2()-.5)*8;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(id,0,0)}catch(e){}
   };
   img.onerror=function(){};
   img.src='https://picsum.photos/seed/rf'+Math.abs(seed%9999)+'/512/512';
@@ -381,72 +379,72 @@ function imgMemeRender(cv,text,mood,seed){
 function memeRender(cv,text,mood,seed){
   let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
   let r=sr(seed);
-  // Vivid gradient bg
-  let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
+  let moodColors={unhinged:['#ff2d55','#ff6b00','#ff0080'],cursed:['#1a0030','#4a0080','#8b00ff'],dreamy:['#ff9a9e','#fad0c4','#ffecd2'],angry:['#ff0000','#990000','#ff4444'],cosmic:['#0f0c29','#302b63','#24243e'],chaotic:['#00ff87','#60efff','#ff00ff']};
   let cols=moodColors[mood]||moodColors.chaotic;
-  let g=c.createLinearGradient(0,0,r()>0.5?W:0,H);
-  g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
+  let g=c.createLinearGradient(r()*W,0,r()*W,H);g.addColorStop(0,cols[0]);g.addColorStop(0.5,cols[1]);g.addColorStop(1,cols[2]||cols[0]);
   c.fillStyle=g;c.fillRect(0,0,W,H);
-  // Random decorative shapes
-  for(let i=0;i<8;i++){
-    c.save();c.globalAlpha=0.08+r()*0.1;
-    c.fillStyle=r()>0.5?cols[0]:cols[1];
-    c.beginPath();c.arc(r()*W,r()*H,r()*200+50,0,Math.PI*2);c.fill();
-    c.restore();
+  for(let i=0;i<12;i++){
+    let x=r()*W,y=r()*H,sz=r()*180+40;
+    c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
+    c.fillStyle='rgba('+(r()*255|0)+','+(r()*255|0)+','+(r()*255|0)+','+(r()*0.12+0.03)+')';
+    c.fill();
   }
-  // Impact-style text
-  _memeText(c,text,W,H);
-  // Noise grain
-  let id=c.getImageData(0,0,W,H),d=id.data;
-  for(let i=0;i<d.length;i+=4){let n=(r()-.5)*20;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
-  c.putImageData(id,0,0);
+  for(let i=0;i<6;i++){
+    c.beginPath();c.moveTo(r()*W,r()*H);
+    c.bezierCurveTo(r()*W,r()*H,r()*W,r()*H,r()*W,r()*H);
+    c.strokeStyle='rgba(255,255,255,'+(r()*0.15+0.05)+')';
+    c.lineWidth=r()*8+2;c.stroke();
+  }
+  for(let i=0;i<20;i++){
+    let x=r()*W,y=r()*H,sz=r()*4+1;
+    c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
+    c.fillStyle='rgba(255,255,255,'+(r()*0.4+0.1)+')';c.fill();
+  }
+  let ng=c.createRadialGradient(W*r(),H*r(),0,W/2,H/2,W*0.8);
+  ng.addColorStop(0,'rgba(255,255,255,0.08)');ng.addColorStop(1,'transparent');
+  c.fillStyle=ng;c.fillRect(0,0,W,H);
 }
 
 // Glitch-style canvas: scanlines, RGB split, fragmented text
 function glitchRender(cv,text,mood,seed){
   let c=cv.getContext('2d'),W=512,H=512;cv.width=W;cv.height=H;
   let r=sr(seed);
-  // Dark base
-  c.fillStyle='#0a0a0a';c.fillRect(0,0,W,H);
-  // Glitch blocks
-  let h1=Math.floor(r()*360);
-  for(let i=0;i<30;i++){
-    let x=r()*W-50,y=r()*H,w=r()*300+20,h2=r()*40+5;
-    c.fillStyle=`hsla(${(h1+r()*120)%360},90%,50%,${0.05+r()*0.15})`;
-    c.fillRect(x,y,w,h2);
+  let moodColors={unhinged:['#ff2d55','#ff6b00'],cursed:['#1a0030','#4a0080'],dreamy:['#ff9a9e','#fad0c4'],angry:['#ff0000','#990000'],cosmic:['#0f0c29','#302b63'],chaotic:['#00ff87','#60efff']};
+  let cols=moodColors[mood]||moodColors.chaotic;
+  let g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  for(let i=0;i<8;i++){
+    let x=r()*W,y=r()*H,sz=r()*200+50;
+    c.beginPath();c.arc(x,y,sz,0,Math.PI*2);
+    c.fillStyle='rgba('+(r()*255|0)+','+(r()*255|0)+','+(r()*255|0)+','+(r()*0.2+0.05)+')';
+    c.fill();
   }
-  // Scanlines
-  for(let y=0;y<H;y+=2){c.fillStyle=`rgba(0,0,0,${0.2+r()*0.1})`;c.fillRect(0,y,W,1)}
-  // Main text with RGB split effect
-  let fontSize=Math.min(56,Math.floor(2000/(text.length+1)));
-  if(fontSize<24)fontSize=24;
-  c.font=`700 ${fontSize}px "Space Grotesk",monospace`;c.textAlign='center';c.textBaseline='middle';
-  let words=text.toUpperCase().split(' '),lines=[],ln='',maxW=W-80;
-  for(let w of words){let test=ln?ln+' '+w:w;if(c.measureText(test).width>maxW&&ln){lines.push(ln);ln=w}else ln=test}
-  if(ln)lines.push(ln);
-  let totalH=lines.length*fontSize*1.2;
-  let startY=H/2-totalH/2+fontSize/2;
-  // RGB split
-  let offR=2+Math.floor(r()*4),offB=-(2+Math.floor(r()*4));
-  lines.forEach((line,i)=>{
-    let y=startY+i*fontSize*1.2;
-    c.globalCompositeOperation='lighter';
-    c.fillStyle='rgba(255,0,0,0.7)';c.fillText(line,W/2+offR,y);
-    c.fillStyle='rgba(0,255,0,0.7)';c.fillText(line,W/2,y);
-    c.fillStyle='rgba(0,100,255,0.7)';c.fillText(line,W/2+offB,y);
-    c.globalCompositeOperation='source-over';
-  });
-  // Random horizontal glitch tears
-  for(let i=0;i<5;i++){
-    let y=Math.floor(r()*H),h2=Math.floor(r()*15)+3;
-    let shift=Math.floor(r()*40)-20;
-    let strip=c.getImageData(0,y,W,h2);
-    c.putImageData(strip,shift,y);
-  }
-  // Noise
-  let id=c.getImageData(0,0,W,H),d=id.data;
-  for(let i=0;i<d.length;i+=4){let n=(r()-.5)*30;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
-  c.putImageData(id,0,0);
+  try{
+    let id=c.getImageData(0,0,W,H),d=id.data;
+    let sliceH=4+Math.floor(r()*12);
+    for(let y=0;y<H;y+=sliceH){
+      let shift=Math.floor((r()-0.5)*30);
+      let h=Math.min(sliceH,H-y);
+      if(Math.abs(shift)>2){
+        let slice=c.getImageData(0,y,W,h);
+        c.putImageData(slice,shift,y);
+      }
+    }
+    id=c.getImageData(0,0,W,H);d=id.data;
+    let r2=sr(seed+99);
+    for(let i=0;i<d.length;i+=4){
+      if(r2()<0.03){d[i]=255;d[i+1]=0;d[i+2]=0;d[i+3]=180;}
+      else if(r2()<0.03){d[i]=0;d[i+1]=255;d[i+2]=0;d[i+3]=180;}
+    }
+    for(let y=0;y<H;y++){
+      if(r2()<0.08){
+        for(let x=0;x<W;x++){let p=(y*W+x)*4;d[p]=d[p]+50;d[p+1]=d[p+1]-20;d[p+2]=d[p+2]+30;}
+      }
+    }
+    c.putImageData(id,0,0);
+    c.fillStyle='rgba(0,0,0,0.02)';
+    for(let i=0;i<H;i+=2){c.fillRect(0,i,W,1);}
+  }catch(e){}
 }
 
 // Create a card from chaos engine result
@@ -469,9 +467,9 @@ function createChaosCard(collision, words, mood){
     let c2=d.querySelector('canvas');
     if(!c2)return;
   let roll=Math.random();
-  if(roll<0.4) imgMemeRender(c2,collision,mood,seed);
-  else if(roll<0.6) ga(c2,promptSeed,ix);
-  else if(roll<0.8) glitchRender(c2,collision,mood,seed);
+  if(roll<0.5) imgMemeRender(c2,collision,mood,seed);
+  else if(roll<0.7) ga(c2,promptSeed,ix);
+  else if(roll<0.85) glitchRender(c2,collision,mood,seed);
   else memeRender(c2,collision,mood,seed);
   });
   return d
@@ -499,7 +497,7 @@ document.addEventListener('click',e=>{
   let sb=e.target.closest('.shb');if(sb){e.stopPropagation();let pr=decodeURIComponent(sb.dataset.p),hk=["I can't unsee this","AI generated this and I'm not okay","why does this exist \uD83D\uDC80","this broke my brain","help I've been scrolling for 20 minutes"];let tx=hk[Math.floor(Math.random()*hk.length)]+': "'+pr+'"\n\nrotfeed.app';if(navigator.share)navigator.share({text:tx,url:location.href});else navigator.clipboard.writeText(tx).then(()=>st2('\uD83D\uDCCB Link copied!'));return}
   let cd=e.target.closest('.cd');if(cd){let now=Date.now();if(now-lt<350){let ht=cd.querySelector('.dth'),bn=cd.querySelector('.lkb'),id=bn?.dataset.id;if(id&&!lk.has(id)){lk.add(id);bn.classList.add('lk')}ht.classList.remove('an');void ht.offsetWidth;ht.classList.add('an');setTimeout(()=>ht.classList.remove('an'),900)}lt=now}});
 
-document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;if(roll<0.35)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.6)ga(c2,it.p||'',ix);else if(roll<0.8)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}window._lazyObs.unobserve(d)}})},{rootMargin:'200px'});
+document.getElementById('cb').addEventListener('click',e=>{let pl=e.target.closest('.cp');if(!pl)return;document.querySelectorAll('.cp').forEach(p=>p.classList.remove('on'));pl.classList.add('on');ac=pl.dataset.c;lc=0;document.getElementById('fd').innerHTML='';sf=sh(P);window._lazyObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){let d=e.target,c2=d.querySelector('canvas');if(c2&&!c2.dataset.rendered){c2.dataset.rendered='1';let it=JSON.parse(d.dataset.item||'{}'),ix=parseInt(d.dataset.index||'0');let roll=Math.random(),sd=(function(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return h})(it.p||'')+ix;if(roll<0.5)imgMemeRender(c2,it.p,it.c,sd);else if(roll<0.7)ga(c2,it.p||'',ix);else if(roll<0.85)glitchRender(c2,it.p,it.c,sd);else memeRender(c2,it.p,it.c,sd)}window._lazyObs.unobserve(d)}})},{rootMargin:'200px'});
 lb2();lb2();st2(ac==='all'?'\uD83D\uDD25 All content':'Filtered: '+ac)});
 
 // ============ PORTAL LOGIC ============
